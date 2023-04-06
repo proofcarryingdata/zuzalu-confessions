@@ -1616,10 +1616,10 @@
   resolved "https://registry.yarnpkg.com/@opentelemetry/semantic-conventions/-/semantic-conventions-1.9.1.tgz#ad3367684a57879392513479e0a436cb2ac46dad"
   integrity sha512-oPQdbFDmZvjXk5ZDoBGXG8B4tSB/qW5vQunJWQMFUBp7Xe8O1ByPANueJ+Jzg58esEBegyyxZ7LRmfJr7kFcFg==
 
-"@pcd/eslint-config-custom@^0.1.0":
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/@pcd/eslint-config-custom/-/eslint-config-custom-0.1.0.tgz#f079b596fb10cd0d440e0eed7aefde76285fcf5e"
-  integrity sha512-Cn4d1LrGbiTykuxcHKwFGPZY0TV/3v3TcfeqZTvaey3fOtGUsXAqmXo0x2Qgy6glMwwRwO3eowMrIjmcOZWeGw==
+"@pcd/eslint-config-custom@0.2.0-next.0":
+  version "0.2.0-next.0"
+  resolved "https://registry.yarnpkg.com/@pcd/eslint-config-custom/-/eslint-config-custom-0.2.0-next.0.tgz#3b1619b671c93b66f65a80d2a815cad2b09efea2"
+  integrity sha512-HvxEEkwEfC/3bluljJLMNE70hx+UrQlV9QHi01evVZ+rSKAD27nx5jNLWfHSF//bm0kdFB5wA8PhaziA+nnc1w==
   dependencies:
     eslint "^7.23.0"
     eslint-config-next "13.0.0"
@@ -1627,73 +1627,120 @@
     eslint-config-turbo latest
     eslint-plugin-react "7.31.8"
 
-"@pcd/passport-crypto@*":
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/@pcd/passport-crypto/-/passport-crypto-0.1.0.tgz#afb392d9044223eb3a3c2bb5dd62bf98d74c3c7f"
-  integrity sha512-Edp5TJUYPC4YELObCFzyTCUV/d+0DxD7hs9yH8Wq5JId7XblrS7Eu1QzYBQaUw+ATiCrkQtWQgSCy0Kii0fVBQ==
+"@pcd/passport-crypto@0.2.0-next.1":
+  version "0.2.0-next.1"
+  resolved "https://registry.yarnpkg.com/@pcd/passport-crypto/-/passport-crypto-0.2.0-next.1.tgz#068e2ede8e53f12cd1a55ed6975d6ccb7a51a7c1"
+  integrity sha512-moBaWV0/QhKZORbGnqBm000tjBqISE9GUxb0ifIz3QBQ3LPyRacuvpHC1v/zCYpoDeSciiS2AdFfzCxI/znj6Q==
   dependencies:
+    "@pcd/pcd-collection" "0.2.0-next.1"
+    "@pcd/pcd-types" "0.2.0-next.1"
+    "@pcd/semaphore-identity-pcd" "0.2.0-next.1"
+    "@pcd/tsconfig" "0.2.0-next.1"
+    "@semaphore-protocol/identity" "^3.1.0"
+    "@types/libsodium-wrappers" "^0.7.10"
+    "@types/mocha" "^10.0.1"
+    "@types/react" "^17.0.37"
+    "@types/react-dom" "^17.0.11"
     libsodium-wrappers "^0.7.11"
-
-"@pcd/passport-interface@^0.1.0":
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/@pcd/passport-interface/-/passport-interface-0.1.0.tgz#af5df968cfd680b3bda1f8f77f0d674f9942dfa3"
-  integrity sha512-yhniR2HzuiBprGcPq6T/dYJYLvJT97udvMnFRGTT45DTHKNhwamjSg0+2wdSRmmfFGQoiswpUsS0UU1a5/RvNw==
-  dependencies:
-    "@pcd/passport-crypto" "*"
-    "@pcd/pcd-types" "*"
-    "@pcd/semaphore-group-pcd" "*"
-    "@pcd/semaphore-signature-pcd" "*"
-    "@semaphore-protocol/group" "^3.1.0"
-    "@semaphore-protocol/identity" "^3.1.0"
-    "@semaphore-protocol/proof" "^3.1.0"
     react "^18.2.0"
+    typescript "^4.5.2"
 
-"@pcd/pcd-types@*", "@pcd/pcd-types@^0.1.0":
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/@pcd/pcd-types/-/pcd-types-0.1.0.tgz#f9acc586608fe87355e36d0109ea514130cd692c"
-  integrity sha512-SYxe1/RvOYhJg3694JaK4GpAZ9l6w4pkbRk/GXHqf7nAvDYHJ8oU8Js9kWnF8tGa78kQceRRQIGdPgCPChxGpQ==
-
-"@pcd/semaphore-group-pcd@*", "@pcd/semaphore-group-pcd@^0.1.0":
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/@pcd/semaphore-group-pcd/-/semaphore-group-pcd-0.1.0.tgz#149c855f240e8cd279167fb509c71079f8019c04"
-  integrity sha512-Ez6ct7/WL7s07Vm/Rw+c71yYJHyJ0nUqYxSV3VqdLBi9Rzbg1RQELzyuJgNleegbWJRiI6bkxDKugeqUHbtuXQ==
+"@pcd/passport-interface@0.2.0-next.1":
+  version "0.2.0-next.1"
+  resolved "https://registry.yarnpkg.com/@pcd/passport-interface/-/passport-interface-0.2.0-next.1.tgz#cf6022b0368231978c5694a3abd0abe860d1a774"
+  integrity sha512-AFE5/gd9ro2gzoJkWLhmNuCxJhufdpu/Dk7Y31q1XWzyNnEFdnYhhB21Zz0oCdsOenS+xRCyOyA9CPyHUtuOOg==
   dependencies:
-    "@pcd/pcd-types" "*"
-    "@pcd/semaphore-identity-pcd" "*"
+    "@pcd/passport-crypto" "0.2.0-next.1"
+    "@pcd/pcd-types" "0.2.0-next.1"
+    "@pcd/semaphore-group-pcd" "0.2.0-next.1"
+    "@pcd/semaphore-signature-pcd" "0.2.0-next.1"
+    "@pcd/tsconfig" "0.2.0-next.1"
     "@semaphore-protocol/group" "^3.1.0"
     "@semaphore-protocol/identity" "^3.1.0"
     "@semaphore-protocol/proof" "^3.1.0"
+    "@types/expect" "^24.3.0"
+    "@types/mocha" "^10.0.1"
+    "@types/react" "^18.0.28"
+    react "^18.2.0"
+    typescript "^4.9.5"
+
+"@pcd/pcd-collection@0.2.0-next.1":
+  version "0.2.0-next.1"
+  resolved "https://registry.yarnpkg.com/@pcd/pcd-collection/-/pcd-collection-0.2.0-next.1.tgz#aef7a7a2fb10085dd1dc1a33d0239e5565d06dae"
+  integrity sha512-dox+HNJYdJFiJl1AYPZpMZdVzJgCL885YetYu6HXs9b88W10HPEbfk+5Gp7udRztASSV40YX8fvRBdY8roHlHA==
+  dependencies:
+    "@pcd/pcd-types" "0.2.0-next.1"
+    "@pcd/tsconfig" "0.2.0-next.1"
+    typescript "^4.5.2"
+
+"@pcd/pcd-types@0.2.0-next.1":
+  version "0.2.0-next.1"
+  resolved "https://registry.yarnpkg.com/@pcd/pcd-types/-/pcd-types-0.2.0-next.1.tgz#c4224d17a83a9a51b77144c00b778f0e55c83493"
+  integrity sha512-JLy3g5lkH0o5dwDSqgwsiqhCwdmch5wgZpl4qvtJMJMw7EIc6WzmEMDe3KaGIYUZPoa6bov4nFOMxUqQBmIf+w==
+  dependencies:
+    "@pcd/tsconfig" "0.2.0-next.1"
+    typescript "^4.5.2"
+
+"@pcd/semaphore-group-pcd@0.2.0-next.1":
+  version "0.2.0-next.1"
+  resolved "https://registry.yarnpkg.com/@pcd/semaphore-group-pcd/-/semaphore-group-pcd-0.2.0-next.1.tgz#363e8ea1b29e05a2aa80cf4c1d130dd012c6afa2"
+  integrity sha512-BFm3fY6GyFAjGAdXm1+SzEhKhStyV/qYDtF09iKr0A260XEWbt/c7hNQDk9q/agR/cNBt4t78aRjNlnuqNYxTw==
+  dependencies:
+    "@pcd/eslint-config-custom" "0.2.0-next.0"
+    "@pcd/pcd-types" "0.2.0-next.1"
+    "@pcd/semaphore-identity-pcd" "0.2.0-next.1"
+    "@pcd/tsconfig" "0.2.0-next.1"
+    "@semaphore-protocol/group" "^3.1.0"
+    "@semaphore-protocol/identity" "^3.1.0"
+    "@semaphore-protocol/proof" "^3.1.0"
+    "@types/expect" "^24.3.0"
+    "@types/json-bigint" "^1.0.1"
+    "@types/mocha" "^10.0.1"
+    "@types/uuid" "^9.0.0"
     json-bigint "^1.0.0"
+    typescript "^4.9.5"
     uuid "^9.0.0"
 
-"@pcd/semaphore-identity-pcd@*", "@pcd/semaphore-identity-pcd@^0.1.0":
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/@pcd/semaphore-identity-pcd/-/semaphore-identity-pcd-0.1.0.tgz#1a17c5d5eaa99bc8b96b2ebefa106d4140600b9b"
-  integrity sha512-ea0KmdL3cpkvi4Fke/uo8nDEciPt29aUNEaXf8FYOUaG/ZIK/vKs+nlFKwJuGI7Lmx6PA3QtX03LXTW3PumlEA==
+"@pcd/semaphore-identity-pcd@0.2.0-next.1":
+  version "0.2.0-next.1"
+  resolved "https://registry.yarnpkg.com/@pcd/semaphore-identity-pcd/-/semaphore-identity-pcd-0.2.0-next.1.tgz#2c90bab3f3bc36adcd343d67b5cac83337e08bc3"
+  integrity sha512-bTeaNkDgd1bzRbZvtgbBFjjAxcxTg7pW85fl8rfB9U058Q63mCx9XgB/QRXWzsZgkeaH4LbRwXQnB0l2TmyP8w==
   dependencies:
-    "@pcd/pcd-types" "*"
+    "@pcd/pcd-types" "0.2.0-next.1"
+    "@pcd/tsconfig" "0.2.0-next.1"
     "@semaphore-protocol/group" "^3.1.0"
     "@semaphore-protocol/identity" "^3.1.0"
     "@semaphore-protocol/proof" "^3.1.0"
+    "@types/json-bigint" "^1.0.1"
+    "@types/uuid" "^9.0.0"
     json-bigint "^1.0.0"
+    typescript "^4.5.2"
     uuid "^9.0.0"
 
-"@pcd/semaphore-signature-pcd@*":
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/@pcd/semaphore-signature-pcd/-/semaphore-signature-pcd-0.1.0.tgz#a38cfc2c092a72c8c0a57e31dd148a69d47bb745"
-  integrity sha512-MyqoG3sT5/y6qveQ0Hid9D1Hglds3it94PO4gEv3onbBhF1jIC1lZp5biMduPN/RRhik+hkZlgc2GK0SHDKglA==
+"@pcd/semaphore-signature-pcd@0.2.0-next.1":
+  version "0.2.0-next.1"
+  resolved "https://registry.yarnpkg.com/@pcd/semaphore-signature-pcd/-/semaphore-signature-pcd-0.2.0-next.1.tgz#650c9c55e24f621313ec93de13ff5dd108b68e7c"
+  integrity sha512-Rqk6xO2l3KxWuQXktEB4b3lXvuznu9CzDTCMjVBkvGYYn8ZU0RGSsqviYpZeZzmpmYHeVYC7dgLCONvUMjdnyA==
   dependencies:
-    "@pcd/pcd-types" "*"
+    "@pcd/pcd-types" "0.2.0-next.1"
+    "@pcd/tsconfig" "0.2.0-next.1"
     "@semaphore-protocol/group" "^3.1.0"
     "@semaphore-protocol/identity" "^3.1.0"
     "@semaphore-protocol/proof" "^3.1.0"
+    "@types/expect" "^24.3.0"
+    "@types/json-bigint" "^1.0.1"
+    "@types/mocha" "^10.0.1"
+    "@types/react" "^17.0.37"
+    "@types/react-dom" "^17.0.11"
     js-sha256 "^0.9.0"
     json-bigint "^1.0.0"
+    react "^18.2.0"
+    typescript "^4.5.2"
 
-"@pcd/tsconfig@^0.1.0":
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/@pcd/tsconfig/-/tsconfig-0.1.0.tgz#9f5bedcf779024eaf5048e54e2833a7e534340ad"
-  integrity sha512-jkkHWB0pgul5/hlAF/zFSsLCsQlITBwIQv6frj6luRsQRFPSj3worAnhyqHwwh3BGauzFe4jfyTv+ezn6McavQ==
+"@pcd/tsconfig@0.2.0-next.1":
+  version "0.2.0-next.1"
+  resolved "https://registry.yarnpkg.com/@pcd/tsconfig/-/tsconfig-0.2.0-next.1.tgz#5714a8abf210a51b3b0bdd50d3fa27f9163cedca"
+  integrity sha512-oSq5lkfOOozsUPYD4XQ/EQ1lsbuyOjCrqc7XnidzuvqtoXVIHmF3NDLxOTsVefbTL8zHDsYi45tICXZBiN1eXA==
 
 "@prisma/client@^4.12.0":
   version "4.12.0"
@@ -2040,6 +2087,11 @@
   dependencies:
     "@types/istanbul-lib-report" "*"
 
+"@types/json-bigint@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@types/json-bigint/-/json-bigint-1.0.1.tgz#201062a6990119a8cc18023cfe1fed12fc2fc8a7"
+  integrity sha512-zpchZLNsNuzJHi6v64UBoFWAvQlPhch7XAi36FkH6tL1bbbmimIF+cS7vwkzY4u5RaSWMoflQfu+TshMPPw8uw==
+
 "@types/json-schema@^7.0.9":
   version "7.0.11"
   resolved "https://registry.yarnpkg.com/@types/json-schema/-/json-schema-7.0.11.tgz#d421b6c527a3037f7c84433fd2c4229e016863d3"
@@ -2103,6 +2155,11 @@
   integrity sha512-OB3Ax75nmTP+WR9AgdzA42DI7YmBtiNKN2g1Wxl+d5Dyek9SWt740t+ukwXSmv/jMBCUPyV3YEI93vZHgdP7UQ==
   dependencies:
     "@types/koa" "*"
+
+"@types/libsodium-wrappers@^0.7.10":
+  version "0.7.10"
+  resolved "https://registry.yarnpkg.com/@types/libsodium-wrappers/-/libsodium-wrappers-0.7.10.tgz#a6ebde70d3b4af960fd802af8d0e3c7cfe281eb2"
+  integrity sha512-BqI9B92u+cM3ccp8mpHf+HzJ8fBlRwdmyd6+fz3p99m3V6ifT5O3zmOMi612PGkpeFeG/G6loxUnzlDNhfjPSA==
 
 "@types/lodash@^4.14.191":
   version "4.14.192"
@@ -2215,6 +2272,13 @@
   resolved "https://registry.yarnpkg.com/@types/range-parser/-/range-parser-1.2.4.tgz#cd667bcfdd025213aafb7ca5915a932590acdcdc"
   integrity sha512-EEhsLsD6UsDM1yFhAvy0Cjr6VwmpMWqFBCb9w07wVugF7w9nfajxLuVmngTIpgS6svCnm6Vaw+MZhoDCKnOfsw==
 
+"@types/react-dom@^17.0.11":
+  version "17.0.19"
+  resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-17.0.19.tgz#36feef3aa35d045cacd5ed60fe0eef5272f19492"
+  integrity sha512-PiYG40pnQRdPHnlf7tZnp0aQ6q9tspYr72vD61saO6zFCybLfMqwUCN0va1/P+86DXn18ZWeW30Bk7xlC5eEAQ==
+  dependencies:
+    "@types/react" "^17"
+
 "@types/react-dom@^18.0.7":
   version "18.0.11"
   resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-18.0.11.tgz#321351c1459bc9ca3d216aefc8a167beec334e33"
@@ -2222,10 +2286,19 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react@*", "@types/react@^18.0.22":
+"@types/react@*", "@types/react@^18.0.22", "@types/react@^18.0.28":
   version "18.0.33"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-18.0.33.tgz#a1575160cb4376787c2f5fe0312302f824baa61e"
   integrity sha512-sHxzVxeanvQyQ1lr8NSHaj0kDzcNiGpILEVt69g9S31/7PfMvNCKLKcsHw4lYKjs3cGNJjXSP4mYzX43QlnjNA==
+  dependencies:
+    "@types/prop-types" "*"
+    "@types/scheduler" "*"
+    csstype "^3.0.2"
+
+"@types/react@^17", "@types/react@^17.0.37":
+  version "17.0.56"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-17.0.56.tgz#16f54a0b0a4820065b8296f1dd6da80791fcf964"
+  integrity sha512-Z13f9Qz7Hg8f2g2NsBjiJSVWmON2b3K8RIqFK8mMKCIgvD0CD0ZChTukz87H3lI28X3ukXoNFGzo3ZW1ICTtPA==
   dependencies:
     "@types/prop-types" "*"
     "@types/scheduler" "*"
@@ -6830,7 +6903,7 @@ typed-array-length@^1.0.4:
     for-each "^0.3.3"
     is-typed-array "^1.1.9"
 
-typescript@^4.5.3, typescript@^4.9.5:
+typescript@^4.5.2, typescript@^4.5.3, typescript@^4.9.5:
   version "4.9.5"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.9.5.tgz#095979f9bcc0d09da324d58d03ce8f8374cbe65a"
   integrity sha512-1FXk9E2Hm+QzZQ7z+McJiHL4NW1F2EzMu9Nq9i3zAaGqibafqYwCVU6WyWAuyQRRzOlxou8xZSyXLEN8oKj24g==

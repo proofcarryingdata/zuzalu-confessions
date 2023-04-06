@@ -1,7 +1,7 @@
 import {
-  usePassportPCD,
   useSemaphorePassportProof,
   requestZuzaluMembershipUrl,
+  usePassportResponse,
 } from "@pcd/passport-interface";
 import { useEffect, useState } from "react";
 import { PASSPORT_URL, SEMAPHORE_GROUP_URL, requestProofFromPassport } from "../src/util";
@@ -21,7 +21,8 @@ export function Login({
 }) {
   const [loggingIn, setLoggingIn] = useState(false);
 
-  const pcdStr = usePassportPCD();
+  const [pcdStr] = usePassportResponse();
+
   const { proof, valid, error } = useSemaphorePassportProof(
     SEMAPHORE_GROUP_URL!,
     pcdStr
