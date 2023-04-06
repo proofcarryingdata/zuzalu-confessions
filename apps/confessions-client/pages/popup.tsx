@@ -19,15 +19,16 @@ export default function AuthPopup() {
     if (params.get("proofUrl") != null) {
       window.location.href = decodeURIComponent(params.get("proofUrl")!);
     } else if (params.get("proof") != null) {
+      console.log('the proof is', params.get("proof"));
       // Later, the Passport redirects back with a proof. Send it to our parent.
-      window.opener.postMessage({ encodedPcd: params.get("proof")! }, "*");
+      window.opener.postMessage({ encodedPCD: params.get("proof")! }, "*");
       window.close();
     }
   }, []);
 
   // In the happy case, this page redirects immediately.
   // If not, show an error.
-  const [err, setErr] = useState("");
+  const [err, setErr] = useState<string | undefined>();
 
   return <div>{err}</div>;
 }

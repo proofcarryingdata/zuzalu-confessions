@@ -1,6 +1,8 @@
 import {
   constructPassportPcdGetRequestUrl,
-  usePassportPCD,
+
+  usePassportResponse,
+
   useSemaphorePassportProof,
 } from "@pcd/passport-interface";
 import { ArgumentTypeName } from "@pcd/pcd-types";
@@ -28,7 +30,7 @@ export function PublishConfession({
 }) {
   const [confession, setConfession] = useState<string>("");
 
-  const pcdStr = usePassportPCD()
+  const [pcdStr] = usePassportResponse()
   const { proof, valid, error } = useSemaphoreProof(
     SEMAPHORE_GROUP_URL!,
     confession,
