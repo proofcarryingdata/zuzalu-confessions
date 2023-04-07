@@ -1,9 +1,9 @@
 import {
   deserializeSemaphoreGroup,
   SemaphoreGroupPCDPackage,
-  SerializedSemaphoreGroup
+  SerializedSemaphoreGroup,
 } from "@pcd/semaphore-group-pcd";
-import {  generateMessageHash } from "@pcd/semaphore-signature-pcd";
+import { generateMessageHash } from "@pcd/semaphore-signature-pcd";
 import { Group } from "@semaphore-protocol/group";
 import { SEMAPHORE_GROUP_URL } from "./auth";
 
@@ -14,12 +14,12 @@ export async function verifyGroupProof(
 ): Promise<Error | null> {
   // only allow Zuzalu group for now
   if (semaphoreGroupUrl !== SEMAPHORE_GROUP_URL) {
-    return new Error("only Zuzalu group is allowed");
+    return new Error(
+      `only Zuzalu group is allowed. expected ${SEMAPHORE_GROUP_URL} actual: ${semaphoreGroupUrl}`
+    );
   }
 
-  const pcd = await SemaphoreGroupPCDPackage.deserialize(
-    proof
-  );
+  const pcd = await SemaphoreGroupPCDPackage.deserialize(proof);
 
   const verified = await SemaphoreGroupPCDPackage.verify(pcd);
   if (!verified) {
@@ -32,13 +32,17 @@ export async function verifyGroupProof(
   const serializedGroup = JSON.parse(json) as SerializedSemaphoreGroup;
   const group = new Group(1, 16);
   group.addMembers(serializedGroup.members);
-  if (deserializeSemaphoreGroup(pcd.claim.group).root.toString() !== group.root.toString()) {
-    return new Error("semaphoreGroupUrl doesn't match claim group merkletree root")
+  if (
+    deserializeSemaphoreGroup(pcd.claim.group).root.toString() !==
+    group.root.toString()
+  ) {
+    return new Error(
+      "semaphoreGroupUrl doesn't match claim group merkletree root"
+    );
   }
 
-  if (signal &&
-    pcd.claim.signal !== generateMessageHash(signal).toString()) {
-    throw new Error("signal doesn't match claim")
+  if (signal && pcd.claim.signal !== generateMessageHash(signal).toString()) {
+    throw new Error("signal doesn't match claim");
   }
 
   return null;
