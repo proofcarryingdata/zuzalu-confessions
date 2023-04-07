@@ -9,7 +9,7 @@ export const PASSPORT_SERVER_URL = IS_PROD
   : "http://localhost:3002/";
 
 export const CONFESSIONS_SERVER_URL = IS_PROD
-  ? "https://confessions-server.onrender.com" //process.env.CONFESSIONS_SERVER_URL
+  ? "https://confessions-server.onrender.com/" //process.env.CONFESSIONS_SERVER_URL
   : "http://localhost:3005/";
 
 export const SEMAPHORE_GROUP_URL = IS_PROD
