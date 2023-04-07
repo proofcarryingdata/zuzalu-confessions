@@ -3,6 +3,7 @@
     "esbenp.prettier-vscode",
     "styled-components.vscode-styled-components",
     "pomdtr.excalidraw-editor",
-    "dbaeumer.vscode-eslint"
+    "dbaeumer.vscode-eslint",
+    "prisma.prisma"
   ]
 }

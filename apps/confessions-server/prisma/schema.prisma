@@ -17,4 +17,5 @@ model Confession {
   semaphoreGroupUrl String
   body String
   proof Json
+  proofHash String @unique
 }
