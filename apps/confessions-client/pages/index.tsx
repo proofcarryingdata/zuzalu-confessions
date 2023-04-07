@@ -16,35 +16,29 @@ export default function Page() {
   }, [accessToken]);
 
   const updateAccessToken = (token: string | null) => {
-    setAccessToken(token)
+    setAccessToken(token);
     if (!token) {
       window.localStorage.removeItem("access_token");
     } else {
       window.localStorage.setItem("access_token", token!);
     }
-  }
+  };
 
   return (
     <>
       <h1>Confessions Board</h1>
-      {accessToken?
+      {accessToken ? (
         <>
-          <button
-            onClick={
-              () => updateAccessToken(null)
-            }
-          >
-            Logout
-          </button>
-          <br/>
-          <br/>
+          <button onClick={() => updateAccessToken(null)}>Logout</button>
+          <br />
+          <br />
           <Container>
-            <PublishConfession onPublished={setNewConfession}/>
+            <PublishConfession onPublished={setNewConfession} />
           </Container>
         </>
-        :
-        <Login onLoggedIn={updateAccessToken}/>
-      }
+      ) : (
+        <Login onLoggedIn={updateAccessToken} />
+      )}
       <Container>
         <Confessions accessToken={accessToken} newConfession={newConfession} />
       </Container>

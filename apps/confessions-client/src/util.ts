@@ -16,6 +16,11 @@ export const SEMAPHORE_GROUP_URL = IS_PROD
   ? process.env.SEMAPHORE_GROUP_URL
   : "http://localhost:3002/semaphore/1";
 
+console.log("environment variables:");
+console.log("PASSPORT_URL", PASSPORT_URL);
+console.log("PASSPORT_SERVER_URL", PASSPORT_SERVER_URL);
+console.log("CONFESSIONS_SERVER_URL", CONFESSIONS_SERVER_URL);
+console.log("SEMAPHORE_GROUP_URL", SEMAPHORE_GROUP_URL);
 
 // Popup window will redirect to the passport to request a proof.
 // Open the popup window under the current domain, let it redirect there:
