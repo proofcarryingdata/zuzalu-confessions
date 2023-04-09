@@ -2,42 +2,22 @@ import * as React from "react";
 import { useCallback } from "react";
 import styled from "styled-components";
 
-export function ErrorPopup({
-  error,
+export function Popup({
+  children,
   onClose,
 }: {
-  error: ConfessionsError;
+  children: React.ReactNode;
   onClose: () => void;
 }) {
   const ignore = useCallback((e: React.MouseEvent) => e.stopPropagation(), []);
 
   return (
     <ModalBg onClick={onClose}>
-      <ErrorWrap onClick={ignore}>
-        <br />
-        <h1>{error.title}</h1>
-        <br />
-        <p>{error.message}</p>
-        {error.stack && (
-            <>
-            <br />
-            <pre>{error.stack}</pre>
-            </>
-        )}
-        <br/>
-        <button onClick={onClose}>Close</button>
-      </ErrorWrap>
+      <ModalWrap onClick={ignore}>
+        {children}
+      </ModalWrap>
     </ModalBg>
   );
-}
-
-export interface ConfessionsError {
-  /** Big title, should be under 40 chars */
-  title: string;
-  /** Useful explanation, avoid "Something went wrong." */
-  message: string | React.ReactNode;
-  /** Optional stacktrace. */
-  stack?: string;
 }
 
 const ModalBg = styled.div`
@@ -51,7 +31,7 @@ const ModalBg = styled.div`
   z-index: 999;
 `;
 
-const ErrorWrap = styled.div`
+const ModalWrap = styled.div`
   background: radial-gradient(circle, var(--bg-lite-gray), var(--bg-dark-gray));
   top: 64px;
   left: 0;

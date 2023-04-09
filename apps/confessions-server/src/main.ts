@@ -1,6 +1,5 @@
 // prettier-ignore
 import * as dotenv from "dotenv";
-import * as fs from "fs";
 import * as path from "path";
 import { IS_PROD } from "./util/isProd";
 

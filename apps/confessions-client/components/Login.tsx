@@ -4,7 +4,7 @@ import {
   usePassportResponse,
 } from "@pcd/passport-interface";
 import { useEffect, useState } from "react";
-import { ConfessionsError, ErrorPopup } from "./ErrorPopup";
+import { ConfessionsError, ErrorPopup } from "./shared/ErrorPopup";
 import { PASSPORT_URL, SEMAPHORE_GROUP_URL, requestProofFromPassport } from "../src/util";
 import { login } from "../src/api";
 
