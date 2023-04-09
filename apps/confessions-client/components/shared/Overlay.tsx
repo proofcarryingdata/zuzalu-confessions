@@ -2,7 +2,7 @@ import * as React from "react";
 import { useCallback } from "react";
 import styled from "styled-components";
 
-export function Popup({
+export function Overlay({
   children,
   onClose,
 }: {

@@ -7,7 +7,7 @@ import { ArgumentTypeName } from "@pcd/pcd-types";
 import { SemaphoreGroupPCDPackage } from "@pcd/semaphore-group-pcd";
 import { generateMessageHash } from "@pcd/semaphore-signature-pcd";
 import { useCallback, useEffect, useState } from "react";
-import { ConfessionsError, ErrorPopup } from "./shared/ErrorPopup";
+import { ConfessionsError, ErrorOverlay } from "./shared/ErrorOverlay";
 import styled from "styled-components";
 import { PASSPORT_URL, SEMAPHORE_GROUP_URL, requestProofFromPassport } from "../src/util";
 import { postConfession } from "../src/api";
@@ -97,7 +97,7 @@ export function PublishConfession({
       >
         Publish
       </button>
-      {error && <ErrorPopup error={error} onClose={() => setError(undefined)}/> }
+      {error && <ErrorOverlay error={error} onClose={() => setError(undefined)}/> }
     </>
   );
 }

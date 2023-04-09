@@ -1,7 +1,7 @@
 import * as React from "react";
-import { Popup } from "./Popup";
+import { Overlay } from "./Overlay";
 
-export function ErrorPopup({
+export function ErrorOverlay({
   error,
   onClose,
 }: {
@@ -9,7 +9,7 @@ export function ErrorPopup({
   onClose: () => void;
 }) {
   return (
-    <Popup onClose={onClose}>
+    <Overlay onClose={onClose}>
       <br />
       <h1>{error.title}</h1>
       <br />
@@ -22,7 +22,7 @@ export function ErrorPopup({
       )}
       <br/>
       <button onClick={onClose}>Close</button>
-    </Popup>
+    </Overlay>
   );
 }
 
