@@ -1,16 +1,14 @@
 import {
   constructPassportPcdGetRequestUrl,
-
   usePassportResponse,
-
   useSemaphorePassportProof,
 } from "@pcd/passport-interface";
 import { ArgumentTypeName } from "@pcd/pcd-types";
 import { SemaphoreGroupPCDPackage } from "@pcd/semaphore-group-pcd";
 import { generateMessageHash } from "@pcd/semaphore-signature-pcd";
 import { useCallback, useEffect, useState } from "react";
+import { ConfessionsError, ErrorPopup } from "./ErrorPopup";
 import styled from "styled-components";
-import { sha256 } from "js-sha256";
 import { PASSPORT_URL, SEMAPHORE_GROUP_URL, requestProofFromPassport } from "../src/util";
 import { postConfession } from "../src/api";
 
@@ -28,10 +26,11 @@ export function PublishConfession({
 }: {
   onPublished: (newConfession: string) => void;
 }) {
+  const [error, setError] = useState<ConfessionsError>();
   const [confession, setConfession] = useState<string>("");
 
   const [pcdStr] = usePassportResponse()
-  const { proof, valid, error } = useSemaphoreProof(
+  const { proof, valid, error: proofError } = useSemaphoreProof(
     SEMAPHORE_GROUP_URL!,
     confession,
     pcdStr
@@ -40,15 +39,22 @@ export function PublishConfession({
   useEffect(() =>  {
     if (valid === undefined) return; // verifying
 
-    if (error) {
-      // TODO: display error to the user
-      console.error("error using semaphore passport proof", error);
+    if (proofError) {
+      console.error("error using semaphore passport proof: ", proofError);
+      const err = {
+        title: "Publish confession failed",
+        message: "There's an error in generating proof.",
+      } as ConfessionsError;
+      setError(err);
       return;
     }
 
     if (!valid) {
-      // TODO: display error to the user
-      console.error("proof is invalid");
+      const err = {
+        title: "Publish confession failed",
+        message: "Proof is invalid.",
+      } as ConfessionsError;
+      setError(err);
       return;
     }
 
@@ -57,16 +63,20 @@ export function PublishConfession({
     (async () => {
       const res = await postConfession(SEMAPHORE_GROUP_URL!, confession, pcdStr);
       if (!res.ok) {
-        // TODO: display error to the user
-        const err = await res.text();
-        console.error("error posting confession to the server:", err);
+        const resErr = await res.text();
+        console.error("error posting confession to the server: ", resErr);
+        const err = {
+          title: "Publish confession failed",
+          message: "Fail to connect to the server, please try again later.",
+        } as ConfessionsError;
+        setError(err);
       }
     })().then(
       () => {
         onPublished(confession)
       }
     )
-  }, [proof, valid, error, confession, pcdStr, onPublished]);
+  }, [proof, valid, proofError, confession, pcdStr, onPublished]);
 
   return (
     <>
@@ -87,6 +97,7 @@ export function PublishConfession({
       >
         Publish
       </button>
+      {error && <ErrorPopup error={error} onClose={() => setError(undefined)}/> }
     </>
   );
 }
