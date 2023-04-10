@@ -27,6 +27,8 @@ export function PublishConfession({
   onPublished: (newConfession: string) => void;
 }) {
   const [error, setError] = useState<ConfessionsError>();
+
+  const [confessionInput, setConfessionInput] = useState<string>("");
   const [confession, setConfession] = useState<string>("");
 
   const [pcdStr] = usePassportResponse()
@@ -73,7 +75,8 @@ export function PublishConfession({
       }
     })().then(
       () => {
-        onPublished(confession)
+        onPublished(confession);
+        setConfessionInput("");
       }
     )
   }, [proof, valid, proofError, confession, pcdStr, onPublished]);
@@ -84,15 +87,17 @@ export function PublishConfession({
       <BigInput
         placeholder="Confession"
         type="text"
-        value={confession}
-        onChange={(e) => setConfession(e.target.value)}
+        value={confessionInput}
+        onChange={(e) => setConfessionInput(e.target.value)}
       />
       <br />
       <br />
       <button
         onClick={useCallback(
-          () => requestSemaphoreProof(confession),
-          [confession]
+          () => {
+            setConfession(confessionInput);
+            requestSemaphoreProof(confessionInput);
+          }, [setConfession, confessionInput]
         )}
       >
         Publish
@@ -140,7 +145,7 @@ function requestSemaphoreProof(confession: string) {
     }
   );
 
-  requestProofFromPassport(proofUrl);
+  requestProofFromPassport(proofUrl, () => undefined);
 }
 
 function useSemaphoreProof(
