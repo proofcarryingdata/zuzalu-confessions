@@ -9,11 +9,11 @@ export const PASSPORT_SERVER_URL = IS_PROD
   : "http://localhost:3002/";
 
 export const CONFESSIONS_SERVER_URL = IS_PROD
-  ? "https://confessions-server.onrender.com/" //process.env.CONFESSIONS_SERVER_URL
+  ? "https://confessions-server.onrender.com/"
   : "http://localhost:3005/";
 
 export const SEMAPHORE_GROUP_URL = IS_PROD
-  ? "https://api.pcd-passport.com/semaphore/1" //process.env.SEMAPHORE_GROUP_URL
+  ? "https://api.pcd-passport.com/semaphore/1"
   : "http://localhost:3002/semaphore/1";
 
 console.log("environment variables:");

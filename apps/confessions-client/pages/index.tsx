@@ -35,13 +35,13 @@ export default function Page() {
           <Container>
             <PublishConfession onPublished={setNewConfession} />
           </Container>
+          <Container>
+            <Confessions accessToken={accessToken} newConfession={newConfession} />
+          </Container>
         </>
       ) : (
         <Login onLoggedIn={updateAccessToken} />
       )}
-      <Container>
-        <Confessions accessToken={accessToken} newConfession={newConfession} />
-      </Container>
     </>
   );
 }

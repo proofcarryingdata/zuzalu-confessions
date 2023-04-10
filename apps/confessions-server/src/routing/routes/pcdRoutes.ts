@@ -26,17 +26,19 @@ export function initPCDRoutes(
         );
         if (err != null) throw err;
 
+        const proofHash = sha256(request.proof);
+
         // proof should be unique
         await prisma.confession.upsert({
           where: {
-            proofHash: sha256(request.proof),
+            proofHash: proofHash,
           },
           update: {},
           create: {
             semaphoreGroupUrl: request.semaphoreGroupUrl,
             body: request.confession,
             proof: request.proof,
-            proofHash: sha256(request.proof),
+            proofHash: proofHash,
           },
         });
 
