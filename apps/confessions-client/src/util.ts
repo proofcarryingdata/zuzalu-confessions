@@ -24,7 +24,13 @@ console.log("SEMAPHORE_GROUP_URL", SEMAPHORE_GROUP_URL);
 
 // Popup window will redirect to the passport to request a proof.
 // Open the popup window under the current domain, let it redirect there:
-export function requestProofFromPassport(proofUrl: string) {
+export function requestProofFromPassport(proofUrl: string, onPopupClose: () => void) {
   const popupUrl = `/popup?proofUrl=${encodeURIComponent(proofUrl)}`;
-  window.open(popupUrl, "_blank", "width=360,height=480,top=100,popup");
+  const win = window.open(popupUrl, "_blank", "width=360,height=480,top=100,popup");
+  const timer = setInterval(function() {
+    if(win && win.closed) {
+      clearInterval(timer);
+      onPopupClose();
+    }
+  }, 1000);
 }

@@ -140,7 +140,7 @@ function requestSemaphoreProof(confession: string) {
     }
   );
 
-  requestProofFromPassport(proofUrl);
+  requestProofFromPassport(proofUrl, () => undefined);
 }
 
 function useSemaphoreProof(

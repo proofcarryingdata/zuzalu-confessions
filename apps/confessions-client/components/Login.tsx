@@ -81,7 +81,7 @@ export function Login({
         onClick={
           () => {
             setLoggingIn(true);
-            requestZuzaluMembershipProof();
+            requestZuzaluMembershipProof(() => setLoggingIn(false));
           }
         }
         disabled={loggingIn}
@@ -99,12 +99,12 @@ export function Login({
 // Show the Passport popup
 // TODO: make the description in the "prove membership" screen
 // more relevant to this login case
-function requestZuzaluMembershipProof() {
+function requestZuzaluMembershipProof(onPopupClose: () => void) {
   const proofUrl = requestZuzaluMembershipUrl(
     PASSPORT_URL,
     window.location.origin + "/popup",
     SEMAPHORE_GROUP_URL!
   );
 
-  requestProofFromPassport(proofUrl);
+  requestProofFromPassport(proofUrl, onPopupClose);
 }
