@@ -7,33 +7,32 @@ import { listConfessions } from "../src/api";
  * @param newConfession the new confession string
  */
 export function Confessions({
-    accessToken,
-    newConfession,
+  accessToken,
+  newConfession,
 }: {
-    accessToken: string | null;
-    newConfession: string | undefined;
+  accessToken: string | null;
+  newConfession: string | undefined;
 }) {
   const [confessions, setConfessions] = useState<any>(null);
 
   useEffect(() => {
     if (!accessToken) {
-      setConfessions(null)
+      setConfessions(null);
       return;
     }
-  
+
     (async () => {
       // TODO: paging
       const conf = await listConfessions(accessToken, 1, 30);
       setConfessions(conf);
     })();
   }, [accessToken, newConfession]);
-  
+
   return (
     <>
       <h2>Confessions</h2>
-      {confessions != null && (
-        <pre>{JSON.stringify(confessions, null, 2)}</pre>
-      )}
+
+      {confessions != null && <pre>{JSON.stringify(confessions, null, 2)}</pre>}
     </>
   );
 }

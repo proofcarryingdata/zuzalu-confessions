@@ -25,7 +25,7 @@ yarn
 
 # prepare local Postgres - you must have Postgres installed for this
 # to work properly.
-yarn db:generate && yarn dbb:push
+yarn db:generate && yarn db:push
 
 # starts all the applications contained in the `/apps` directory of the
 # repository. this includes the confessions server and client.

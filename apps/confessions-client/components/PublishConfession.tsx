@@ -1,16 +1,14 @@
 import {
-  constructPassportPcdGetRequestUrl,
-  usePassportResponse,
-  useSemaphorePassportProof,
+  openZuzaluMembershipPopup,
+  usePassportPopupMessages,
+  useSemaphoreGroupProof,
 } from "@pcd/passport-interface";
-import { ArgumentTypeName } from "@pcd/pcd-types";
-import { SemaphoreGroupPCDPackage } from "@pcd/semaphore-group-pcd";
-import { generateMessageHash } from "@pcd/semaphore-signature-pcd";
+import { generateMessageHash } from "@pcd/semaphore-group-pcd";
 import { useCallback, useEffect, useState } from "react";
-import { ConfessionsError, ErrorOverlay } from "./shared/ErrorOverlay";
 import styled from "styled-components";
-import { PASSPORT_URL, SEMAPHORE_GROUP_URL, requestProofFromPassport } from "../src/util";
 import { postConfession } from "../src/api";
+import { PASSPORT_URL, SEMAPHORE_GROUP_URL } from "../src/util";
+import { ConfessionsError, ErrorOverlay } from "./shared/ErrorOverlay";
 
 /**
  * The use input a new confession, generate a semaphore proof for the confession.
@@ -27,19 +25,19 @@ export function PublishConfession({
   onPublished: (newConfession: string) => void;
 }) {
   const [error, setError] = useState<ConfessionsError>();
-
   const [confessionInput, setConfessionInput] = useState<string>("");
   const [confession, setConfession] = useState<string>("");
 
-  const [pcdStr] = usePassportResponse()
-  const { proof, valid, error: proofError } = useSemaphoreProof(
-    SEMAPHORE_GROUP_URL!,
-    confession,
-    pcdStr
-  )
+  const [pcdStr, _passportPendingPCDStr] = usePassportPopupMessages();
 
-  useEffect(() =>  {
-    if (valid === undefined) return; // verifying
+  const {
+    proof,
+    valid,
+    error: proofError,
+  } = useSemaphoreGroupProof(pcdStr, SEMAPHORE_GROUP_URL, "zuzalu-confessions");
+
+  useEffect(() => {
+    if (valid === undefined) return;
 
     if (proofError) {
       console.error("error using semaphore passport proof: ", proofError);
@@ -60,10 +58,20 @@ export function PublishConfession({
       return;
     }
 
-    console.log(proof);
+    if (
+      proof &&
+      proof.claim.signal !== generateMessageHash(confession).toString()
+    ) {
+      const err = {
+        title: "Publish confession failed",
+        message: "Proof is not for the confession you wrote",
+      } as ConfessionsError;
+      setError(err);
+      return;
+    }
 
-    (async () => {
-      const res = await postConfession(SEMAPHORE_GROUP_URL!, confession, pcdStr);
+    const sendConfession = async () => {
+      const res = await postConfession(SEMAPHORE_GROUP_URL, confession, pcdStr);
       if (!res.ok) {
         const resErr = await res.text();
         console.error("error posting confession to the server: ", resErr);
@@ -72,13 +80,14 @@ export function PublishConfession({
           message: "Fail to connect to the server, please try again later.",
         } as ConfessionsError;
         setError(err);
+        return;
       }
-    })().then(
-      () => {
-        onPublished(confession);
-        setConfessionInput("");
-      }
-    )
+      onPublished(confession);
+    };
+
+    sendConfession().then(() => {
+      setConfessionInput("");
+    });
   }, [proof, valid, proofError, confession, pcdStr, onPublished]);
 
   return (
@@ -93,79 +102,24 @@ export function PublishConfession({
       <br />
       <br />
       <button
-        onClick={useCallback(
-          () => {
-            setConfession(confessionInput);
-            requestSemaphoreProof(confessionInput);
-          }, [setConfession, confessionInput]
-        )}
+        onClick={useCallback(() => {
+          setConfession(confessionInput);
+          openZuzaluMembershipPopup(
+            PASSPORT_URL,
+            window.location.origin + "/popup",
+            SEMAPHORE_GROUP_URL,
+            "zuzalu-confessions",
+            generateMessageHash(confessionInput).toString()
+          );
+        }, [setConfession, confessionInput])}
       >
         Publish
       </button>
-      {error && <ErrorOverlay error={error} onClose={() => setError(undefined)}/> }
+      {error && (
+        <ErrorOverlay error={error} onClose={() => setError(undefined)} />
+      )}
     </>
   );
-}
-
-
-// Show the Passport popup
-function requestSemaphoreProof(confession: string) {
-  const proofUrl = constructPassportPcdGetRequestUrl<
-    typeof SemaphoreGroupPCDPackage
-  >(
-    PASSPORT_URL,
-    window.location.origin + "/popup",
-    SemaphoreGroupPCDPackage.name,
-    {
-      externalNullifier: {
-        argumentType: ArgumentTypeName.BigInt,
-        value: "1",
-        userProvided: false,
-      },
-      group: {
-        argumentType: ArgumentTypeName.Object,
-        remoteUrl: SEMAPHORE_GROUP_URL,
-        userProvided: false,
-      },
-      identity: {
-        argumentType: ArgumentTypeName.PCD,
-        value: undefined,
-        userProvided: true,
-      },
-      signal: {
-        argumentType: ArgumentTypeName.BigInt,
-        value: generateMessageHash(confession).toString(),
-        userProvided: false,
-      }
-    },
-    {
-      genericProveScreen: true,
-      title: "Zuzalu Member Confession Group",
-      debug: false,
-    }
-  );
-
-  requestProofFromPassport(proofUrl, () => undefined);
-}
-
-function useSemaphoreProof(
-  semaphoreGroupUrl: string,
-  confession: string,
-  proofStr: string
-){
-  const { proof, valid: proofValid, error }
-    = useSemaphorePassportProof(semaphoreGroupUrl, proofStr);
-
-  // Also check whether the proof signal matches the confession string
-  const [valid, setValid] = useState<boolean | undefined>();
-  useEffect(() => {
-    const valid = proofValid &&
-      proof &&
-      proof.claim.signal ===
-      generateMessageHash(confession).toString();
-    setValid(valid);
-  }, [proof, confession, proofValid, setValid])
-  return { proof, valid, error };
 }
 
 const BigInput = styled.input`
