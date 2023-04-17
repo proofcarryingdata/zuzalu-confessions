@@ -4,11 +4,17 @@ import {
   useSemaphoreGroupProof,
 } from "@pcd/passport-interface";
 import { generateMessageHash } from "@pcd/semaphore-group-pcd";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { postConfession } from "../src/api";
 import { PASSPORT_URL, SEMAPHORE_GROUP_URL } from "../src/util";
 import { ConfessionsError, ErrorOverlay } from "./shared/ErrorOverlay";
+
+enum CreateState {
+  DEFAULT,
+  REQUESTING,
+  RECEIVED,
+}
 
 /**
  * The use input a new confession, generate a semaphore proof for the confession.
@@ -24,21 +30,62 @@ export function PublishConfession({
 }: {
   onPublished: (newConfession: string) => void;
 }) {
+  const createState = useRef(CreateState.DEFAULT);
   const [error, setError] = useState<ConfessionsError>();
   const [confessionInput, setConfessionInput] = useState<string>("");
   const [confession, setConfession] = useState<string>("");
 
   const [pcdStr, _passportPendingPCDStr] = usePassportPopupMessages();
 
-  const {
-    proof,
-    valid,
-    error: proofError,
-  } = useSemaphoreGroupProof(pcdStr, SEMAPHORE_GROUP_URL, "zuzalu-confessions");
+  const onVerified = useCallback(
+    (valid: boolean) => {
+      if (createState.current !== CreateState.RECEIVED) return;
+
+      createState.current = CreateState.DEFAULT;
+
+      if (!valid) {
+        const err = {
+          title: "Publish confession failed",
+          message: "Proof is invalid.",
+        } as ConfessionsError;
+        setError(err);
+        return;
+      }
+
+      const sendConfession = async () => {
+        const res = await postConfession(
+          SEMAPHORE_GROUP_URL,
+          confession,
+          pcdStr
+        );
+        if (!res.ok) {
+          const resErr = await res.text();
+          console.error("error posting confession to the server: ", resErr);
+          const err = {
+            title: "Publish confession failed",
+            message: "Fail to connect to the server, please try again later.",
+          } as ConfessionsError;
+          setError(err);
+          return;
+        }
+        onPublished(confession);
+      };
+
+      sendConfession().then(() => {
+        setConfessionInput("");
+      });
+    },
+    [pcdStr, confession, onPublished]
+  );
+
+  const { proof, error: proofError } = useSemaphoreGroupProof(
+    pcdStr,
+    SEMAPHORE_GROUP_URL,
+    "zuzalu-confessions",
+    onVerified
+  );
 
   useEffect(() => {
-    if (valid === undefined) return;
-
     if (proofError) {
       console.error("error using semaphore passport proof: ", proofError);
       const err = {
@@ -48,47 +95,13 @@ export function PublishConfession({
       setError(err);
       return;
     }
+  }, [proofError]);
 
-    if (!valid) {
-      const err = {
-        title: "Publish confession failed",
-        message: "Proof is invalid.",
-      } as ConfessionsError;
-      setError(err);
-      return;
+  useEffect(() => {
+    if (createState.current == CreateState.REQUESTING && proof !== undefined) {
+      createState.current = CreateState.RECEIVED;
     }
-
-    if (
-      proof &&
-      proof.claim.signal !== generateMessageHash(confession).toString()
-    ) {
-      const err = {
-        title: "Publish confession failed",
-        message: "Proof is not for the confession you wrote",
-      } as ConfessionsError;
-      setError(err);
-      return;
-    }
-
-    const sendConfession = async () => {
-      const res = await postConfession(SEMAPHORE_GROUP_URL, confession, pcdStr);
-      if (!res.ok) {
-        const resErr = await res.text();
-        console.error("error posting confession to the server: ", resErr);
-        const err = {
-          title: "Publish confession failed",
-          message: "Fail to connect to the server, please try again later.",
-        } as ConfessionsError;
-        setError(err);
-        return;
-      }
-      onPublished(confession);
-    };
-
-    sendConfession().then(() => {
-      setConfessionInput("");
-    });
-  }, [proof, valid, proofError, confession, pcdStr, onPublished]);
+  }, [proof]);
 
   return (
     <>
@@ -111,6 +124,7 @@ export function PublishConfession({
             "zuzalu-confessions",
             generateMessageHash(confessionInput).toString()
           );
+          createState.current = CreateState.REQUESTING;
         }, [setConfession, confessionInput])}
       >
         Publish
