@@ -3,7 +3,7 @@ import {
   usePassportPopupMessages,
   useSemaphoreGroupProof,
 } from "@pcd/passport-interface";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { login } from "../src/api";
 import { PASSPORT_URL, SEMAPHORE_GROUP_URL } from "../src/util";
 import { ConfessionsError, ErrorOverlay } from "./shared/ErrorOverlay";
@@ -17,14 +17,18 @@ import { ConfessionsError, ErrorOverlay } from "./shared/ErrorOverlay";
  */
 export function Login({ onLoggedIn }: { onLoggedIn: (_: string) => void }) {
   const [error, setError] = useState<ConfessionsError>();
-
   const [pcdStr, _passportPendingPCDStr] = usePassportPopupMessages();
+  const [valid, setValid] = useState<boolean | undefined>();
+  const onVerified = useCallback((valid: boolean) => {
+    setValid(valid);
+  }, []);
 
-  const {
-    proof,
-    valid,
-    error: proofError,
-  } = useSemaphoreGroupProof(pcdStr, SEMAPHORE_GROUP_URL, "zuzalu-confessions");
+  const { proof, error: proofError } = useSemaphoreGroupProof(
+    pcdStr,
+    SEMAPHORE_GROUP_URL,
+    "zuzalu-confessions",
+    onVerified
+  );
 
   useEffect(() => {
     if (valid === undefined) return; // verifying

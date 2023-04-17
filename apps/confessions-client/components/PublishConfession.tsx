@@ -27,14 +27,18 @@ export function PublishConfession({
   const [error, setError] = useState<ConfessionsError>();
   const [confessionInput, setConfessionInput] = useState<string>("");
   const [confession, setConfession] = useState<string>("");
-
+  const [valid, setValid] = useState<boolean | undefined>();
   const [pcdStr, _passportPendingPCDStr] = usePassportPopupMessages();
+  const onVerified = useCallback((valid: boolean) => {
+    setValid(valid);
+  }, []);
 
-  const {
-    proof,
-    valid,
-    error: proofError,
-  } = useSemaphoreGroupProof(pcdStr, SEMAPHORE_GROUP_URL, "zuzalu-confessions");
+  const { proof, error: proofError } = useSemaphoreGroupProof(
+    pcdStr,
+    SEMAPHORE_GROUP_URL,
+    "zuzalu-confessions",
+    onVerified
+  );
 
   useEffect(() => {
     if (valid === undefined) return;
