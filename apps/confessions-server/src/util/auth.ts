@@ -11,10 +11,13 @@ export const SEMAPHORE_SERVER = process.env.SEMAPHORE_SERVER;
 export const PARTICIPANTS_GROUP = SEMAPHORE_SERVER + "semaphore/1";
 export const RESIDENTS_GROUP = SEMAPHORE_SERVER + "semaphore/2";
 export const VISITORS_GROUP = SEMAPHORE_SERVER + "semaphore/3";
+export const ORGANIZERS_GROUP = SEMAPHORE_SERVER + "semaphore/4";
+
 export const ALLOWED_GROUPS = [
   PARTICIPANTS_GROUP,
   VISITORS_GROUP,
   RESIDENTS_GROUP,
+  ORGANIZERS_GROUP,
 ];
 
 export function isAllowedGroup(group: string) {
