@@ -7,7 +7,8 @@ import { generateMessageHash } from "@pcd/semaphore-group-pcd";
 import { useCallback, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { postConfession } from "../src/api";
-import { PARTICIPANTS_URL, PASSPORT_URL } from "../src/util";
+import { ALL_GROUPS, PASSPORT_URL, SGroup } from "../src/util";
+import { SelectGroup } from "./SelectGroup";
 import { ConfessionsError, ErrorOverlay } from "./shared/ErrorOverlay";
 
 enum CreateState {
@@ -34,6 +35,7 @@ export function PublishConfession({
   const [error, setError] = useState<ConfessionsError>();
   const [confessionInput, setConfessionInput] = useState<string>("");
   const [confession, setConfession] = useState<string>("");
+  const [group, setGroup] = useState<SGroup>(ALL_GROUPS[0]);
 
   const [pcdStr, _passportPendingPCDStr] = usePassportPopupMessages();
 
@@ -53,7 +55,7 @@ export function PublishConfession({
       }
 
       const sendConfession = async () => {
-        const res = await postConfession(PARTICIPANTS_URL, confession, pcdStr);
+        const res = await postConfession(group.url, confession, pcdStr);
         if (!res.ok) {
           const resErr = await res.text();
           console.error("error posting confession to the server: ", resErr);
@@ -71,12 +73,12 @@ export function PublishConfession({
         setConfessionInput("");
       });
     },
-    [pcdStr, confession, onPublished]
+    [pcdStr, confession, onPublished, group.url]
   );
 
   const { proof, error: proofError } = useSemaphoreGroupProof(
     pcdStr,
-    PARTICIPANTS_URL,
+    group.url,
     "zuzalu-confessions",
     onVerified
   );
@@ -110,18 +112,19 @@ export function PublishConfession({
       />
       <br />
       <br />
+      <SelectGroup group={group} setGroup={setGroup} />{" "}
       <button
         onClick={useCallback(() => {
           setConfession(confessionInput);
           openZuzaluMembershipPopup(
             PASSPORT_URL,
             window.location.origin + "/popup",
-            PARTICIPANTS_URL,
+            group.url,
             "zuzalu-confessions",
             generateMessageHash(confessionInput).toString()
           );
           createState.current = CreateState.REQUESTING;
-        }, [setConfession, confessionInput])}
+        }, [setConfession, confessionInput, group.url])}
       >
         Publish
       </button>

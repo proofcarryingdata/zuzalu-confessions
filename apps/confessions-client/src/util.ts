@@ -15,3 +15,23 @@ export const CONFESSIONS_SERVER_URL = IS_PROD
 export const PARTICIPANTS_URL = PASSPORT_SERVER_URL + "semaphore/1";
 export const RESIDENTS_URL = PASSPORT_SERVER_URL + "semaphore/2";
 export const VISITORS_URL = PASSPORT_SERVER_URL + "semaphore/3";
+
+export interface SGroup {
+  name: string;
+  url: string;
+}
+
+export const ALL_GROUPS: SGroup[] = [
+  {
+    name: "participants",
+    url: PARTICIPANTS_URL,
+  },
+  {
+    name: "residents",
+    url: RESIDENTS_URL,
+  },
+  {
+    name: "visitors",
+    url: VISITORS_URL,
+  },
+];
