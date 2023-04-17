@@ -5,7 +5,7 @@ import {
 } from "@pcd/passport-interface";
 import { useState } from "react";
 import { login } from "../src/api";
-import { PASSPORT_URL, SEMAPHORE_GROUP_URL } from "../src/util";
+import { PARTICIPANTS_URL, PASSPORT_URL } from "../src/util";
 import { ConfessionsError, ErrorOverlay } from "./shared/ErrorOverlay";
 
 /**
@@ -41,7 +41,7 @@ export function Login({ onLoggedIn }: { onLoggedIn: (_: string) => void }) {
     }
 
     const sendLogin = async () => {
-      const res = await login(SEMAPHORE_GROUP_URL, pcdStr);
+      const res = await login(PARTICIPANTS_URL, pcdStr);
       if (!res.ok) {
         const resErr = await res.text();
         console.error("error login to the server: ", resErr);
@@ -63,7 +63,7 @@ export function Login({ onLoggedIn }: { onLoggedIn: (_: string) => void }) {
 
   const { proof: _proof, error: proofError } = useSemaphoreGroupProof(
     pcdStr,
-    SEMAPHORE_GROUP_URL,
+    PARTICIPANTS_URL,
     "zuzalu-confessions",
     onVerified
   );
@@ -75,7 +75,7 @@ export function Login({ onLoggedIn }: { onLoggedIn: (_: string) => void }) {
           openZuzaluMembershipPopup(
             PASSPORT_URL,
             window.location.origin + "/popup",
-            SEMAPHORE_GROUP_URL,
+            PARTICIPANTS_URL,
             "zuzalu-confessions"
           );
         }}

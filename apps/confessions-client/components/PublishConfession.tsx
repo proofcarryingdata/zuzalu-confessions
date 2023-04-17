@@ -7,7 +7,7 @@ import { generateMessageHash } from "@pcd/semaphore-group-pcd";
 import { useCallback, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { postConfession } from "../src/api";
-import { PASSPORT_URL, SEMAPHORE_GROUP_URL } from "../src/util";
+import { PARTICIPANTS_URL, PASSPORT_URL } from "../src/util";
 import { ConfessionsError, ErrorOverlay } from "./shared/ErrorOverlay";
 
 enum CreateState {
@@ -53,11 +53,7 @@ export function PublishConfession({
       }
 
       const sendConfession = async () => {
-        const res = await postConfession(
-          SEMAPHORE_GROUP_URL,
-          confession,
-          pcdStr
-        );
+        const res = await postConfession(PARTICIPANTS_URL, confession, pcdStr);
         if (!res.ok) {
           const resErr = await res.text();
           console.error("error posting confession to the server: ", resErr);
@@ -80,7 +76,7 @@ export function PublishConfession({
 
   const { proof, error: proofError } = useSemaphoreGroupProof(
     pcdStr,
-    SEMAPHORE_GROUP_URL,
+    PARTICIPANTS_URL,
     "zuzalu-confessions",
     onVerified
   );
@@ -120,7 +116,7 @@ export function PublishConfession({
           openZuzaluMembershipPopup(
             PASSPORT_URL,
             window.location.origin + "/popup",
-            SEMAPHORE_GROUP_URL,
+            PARTICIPANTS_URL,
             "zuzalu-confessions",
             generateMessageHash(confessionInput).toString()
           );
