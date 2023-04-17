@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import styled from "styled-components";
 import { listConfessions } from "../src/api";
 import { Confession, SingleConfession } from "./Confession";
 
@@ -31,12 +32,21 @@ export function Confessions({
 
   return (
     <>
-      <h2>Confessions</h2>
+      <h2 style={{ marginBottom: "32px" }}>Confessions</h2>
 
-      {confessions != null &&
-        confessions.confessions.map((confession: Confession) => (
-          <SingleConfession confession={confession} />
-        ))}
+      <ConfessionsContainer>
+        {confessions != null &&
+          confessions.confessions.map((confession: Confession) => (
+            <SingleConfession confession={confession} />
+          ))}
+      </ConfessionsContainer>
     </>
   );
 }
+
+const ConfessionsContainer = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: wrap;
+`;
