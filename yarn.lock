@@ -1616,17 +1616,6 @@
   resolved "https://registry.yarnpkg.com/@opentelemetry/semantic-conventions/-/semantic-conventions-1.9.1.tgz#ad3367684a57879392513479e0a436cb2ac46dad"
   integrity sha512-oPQdbFDmZvjXk5ZDoBGXG8B4tSB/qW5vQunJWQMFUBp7Xe8O1ByPANueJ+Jzg58esEBegyyxZ7LRmfJr7kFcFg==
 
-"@pcd/eslint-config-custom@0.2.0-next.0":
-  version "0.2.0-next.0"
-  resolved "https://registry.yarnpkg.com/@pcd/eslint-config-custom/-/eslint-config-custom-0.2.0-next.0.tgz#3b1619b671c93b66f65a80d2a815cad2b09efea2"
-  integrity sha512-HvxEEkwEfC/3bluljJLMNE70hx+UrQlV9QHi01evVZ+rSKAD27nx5jNLWfHSF//bm0kdFB5wA8PhaziA+nnc1w==
-  dependencies:
-    eslint "^7.23.0"
-    eslint-config-next "13.0.0"
-    eslint-config-prettier "^8.3.0"
-    eslint-config-turbo latest
-    eslint-plugin-react "7.31.8"
-
 "@pcd/eslint-config-custom@0.4.0":
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/@pcd/eslint-config-custom/-/eslint-config-custom-0.4.0.tgz#7a17766da4d8e5cc0a29642ea57bf550cb722b51"
@@ -1656,10 +1645,10 @@
     react "^18.2.0"
     typescript "^4.5.2"
 
-"@pcd/passport-interface@0.4.0":
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/@pcd/passport-interface/-/passport-interface-0.4.0.tgz#a4401d5d44363e7399da5641f5be0d390b7ae23a"
-  integrity sha512-Msm4Idm+WWvflaHMX95ZBnxI8mVOO3nVwHd2l7rN83a3masuP7IybA2j4oVfjyjXIwu/WUWys5l5+93ORpskyQ==
+"@pcd/passport-interface@0.4.1":
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/@pcd/passport-interface/-/passport-interface-0.4.1.tgz#7761ec01773a7f3d9d96086c5c058deb082c91e0"
+  integrity sha512-74+irjgs7dWjJnAwQxH32dzr1Cg2XyEjda9wOyTNriYcuKYfvHDdZ0z7gseJ25QCUEbzLPAaUPpDYyLTM2oH9A==
   dependencies:
     "@pcd/passport-crypto" "0.4.0"
     "@pcd/pcd-types" "0.4.0"

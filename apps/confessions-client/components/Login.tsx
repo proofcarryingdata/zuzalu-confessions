@@ -3,7 +3,7 @@ import {
   usePassportPopupMessages,
   useSemaphoreGroupProof,
 } from "@pcd/passport-interface";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { login } from "../src/api";
 import { PASSPORT_URL, SEMAPHORE_GROUP_URL } from "../src/util";
 import { ConfessionsError, ErrorOverlay } from "./shared/ErrorOverlay";
@@ -20,15 +20,7 @@ export function Login({ onLoggedIn }: { onLoggedIn: (_: string) => void }) {
 
   const [pcdStr, _passportPendingPCDStr] = usePassportPopupMessages();
 
-  const {
-    proof,
-    valid,
-    error: proofError,
-  } = useSemaphoreGroupProof(pcdStr, SEMAPHORE_GROUP_URL, "zuzalu-confessions");
-
-  useEffect(() => {
-    if (valid === undefined) return; // verifying
-
+  const onVerified = (valid: boolean) => {
     if (proofError) {
       console.error("error using semaphore passport proof: ", proofError);
       const err = {
@@ -48,7 +40,7 @@ export function Login({ onLoggedIn }: { onLoggedIn: (_: string) => void }) {
       return;
     }
 
-    (async () => {
+    const sendLogin = async () => {
       const res = await login(SEMAPHORE_GROUP_URL, pcdStr);
       if (!res.ok) {
         const resErr = await res.text();
@@ -62,10 +54,19 @@ export function Login({ onLoggedIn }: { onLoggedIn: (_: string) => void }) {
       }
       const token = await res.json();
       return token.accessToken;
-    })().then((accessToken) => {
+    };
+
+    sendLogin().then((accessToken) => {
       onLoggedIn(accessToken);
     });
-  }, [proof, valid, proofError, pcdStr, onLoggedIn]);
+  };
+
+  const { proof, error: proofError } = useSemaphoreGroupProof(
+    pcdStr,
+    SEMAPHORE_GROUP_URL,
+    "zuzalu-confessions",
+    onVerified
+  );
 
   return (
     <>
