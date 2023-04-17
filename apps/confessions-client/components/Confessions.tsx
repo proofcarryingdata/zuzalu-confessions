@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { listConfessions } from "../src/api";
+import { Confession, SingleConfession } from "./Confession";
 
 /**
  * Shows the user with access token a list of confessions.
@@ -32,7 +33,10 @@ export function Confessions({
     <>
       <h2>Confessions</h2>
 
-      {confessions != null && <pre>{JSON.stringify(confessions, null, 2)}</pre>}
+      {confessions != null &&
+        confessions.confessions.map((confession: Confession) => (
+          <SingleConfession confession={confession} />
+        ))}
     </>
   );
 }
