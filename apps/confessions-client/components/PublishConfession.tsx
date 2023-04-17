@@ -43,16 +43,6 @@ export function PublishConfession({
 
       createState.current = CreateState.DEFAULT;
 
-      if (proofError) {
-        console.error("error using semaphore passport proof: ", proofError);
-        const err = {
-          title: "Publish confession failed",
-          message: "There's an error in generating proof.",
-        } as ConfessionsError;
-        setError(err);
-        return;
-      }
-
       if (!valid) {
         const err = {
           title: "Publish confession failed",
@@ -85,7 +75,7 @@ export function PublishConfession({
         setConfessionInput("");
       });
     },
-    [pcdStr]
+    [pcdStr, confession, onPublished]
   );
 
   const { proof, error: proofError } = useSemaphoreGroupProof(
@@ -94,6 +84,18 @@ export function PublishConfession({
     "zuzalu-confessions",
     onVerified
   );
+
+  useEffect(() => {
+    if (proofError) {
+      console.error("error using semaphore passport proof: ", proofError);
+      const err = {
+        title: "Publish confession failed",
+        message: "There's an error in generating proof.",
+      } as ConfessionsError;
+      setError(err);
+      return;
+    }
+  }, [proofError]);
 
   useEffect(() => {
     if (createState.current == CreateState.REQUESTING && proof !== undefined) {

@@ -61,7 +61,7 @@ export function Login({ onLoggedIn }: { onLoggedIn: (_: string) => void }) {
     });
   };
 
-  const { proof, error: proofError } = useSemaphoreGroupProof(
+  const { proof: _proof, error: proofError } = useSemaphoreGroupProof(
     pcdStr,
     SEMAPHORE_GROUP_URL,
     "zuzalu-confessions",
