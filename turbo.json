@@ -4,7 +4,7 @@
     "build": {
       "dependsOn": ["^build"],
       "outputs": ["dist/**"],
-      "catche": false
+      "cache": false
     },
     "lint": {
       "outputs": [],
@@ -30,6 +30,7 @@
     "CONFESSIONS_SERVER_URL",
     "NEXT_PUBLIC_CONFESSIONS_SERVER_URL",
     "SEMAPHORE_GROUP_URL",
+    "SEMAPHORE_SERVER",
     "NEXT_PUBLIC_SEMAPHORE_GROUP_URL",
     "ACCESS_TOKEN_SECRET"
   ]

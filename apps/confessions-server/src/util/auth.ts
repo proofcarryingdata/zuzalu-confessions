@@ -1,24 +1,39 @@
-import { Request, Response, NextFunction } from "express";
-import { verify, JwtPayload } from "jsonwebtoken";
+import { NextFunction, Request, Response } from "express";
+import { JwtPayload, verify } from "jsonwebtoken";
 import { IS_PROD } from "./isProd";
 
 export const ACCESS_TOKEN_SECRET = IS_PROD
   ? process.env.ACCESS_TOKEN_SECRET
   : "secret";
 
-export const SEMAPHORE_GROUP_URL = IS_PROD
-  ? process.env.SEMAPHORE_GROUP_URL
-  : "http://localhost:3002/semaphore/1";
+export const SEMAPHORE_SERVER = process.env.SEMAPHORE_SERVER;
 
-export interface GroupJwtPayload extends JwtPayload {
-  groupUrl: string
+export const PARTICIPANTS_GROUP = SEMAPHORE_SERVER + "semaphore/1";
+export const RESIDENTS_GROUP = SEMAPHORE_SERVER + "semaphore/2";
+export const VISITORS_GROUP = SEMAPHORE_SERVER + "semaphore/3";
+export const ALLOWED_GROUPS = [
+  PARTICIPANTS_GROUP,
+  VISITORS_GROUP,
+  RESIDENTS_GROUP,
+];
+
+export function isAllowedGroup(group: string) {
+  return ALLOWED_GROUPS.includes(group);
 }
 
-export const authenticateJWT = (req: Request, res: Response, next: NextFunction) => {
+export interface GroupJwtPayload extends JwtPayload {
+  groupUrl: string;
+}
+
+export const authenticateJWT = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   const authHeader = req.headers.authorization;
 
   if (authHeader) {
-    const token = authHeader.split(' ')[1];
+    const token = authHeader.split(" ")[1];
 
     verify(token, ACCESS_TOKEN_SECRET!, (err, group) => {
       if (err) {
@@ -26,8 +41,8 @@ export const authenticateJWT = (req: Request, res: Response, next: NextFunction)
       }
 
       const payload = group as GroupJwtPayload;
-      if (payload.groupUrl !== SEMAPHORE_GROUP_URL) {
-          return res.sendStatus(403);
+      if (!isAllowedGroup(payload.groupUrl)) {
+        return res.sendStatus(403);
       }
 
       next();
@@ -35,4 +50,4 @@ export const authenticateJWT = (req: Request, res: Response, next: NextFunction)
   } else {
     res.sendStatus(401);
   }
-}
+};
