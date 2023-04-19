@@ -70,17 +70,20 @@ export function PublishConfession({
 
       const sendConfession = async () => {
         let signaturePCDStr: string | undefined = undefined;
+
         if (signaturePCD) {
-          signaturePCDStr = JSON.stringify(
-            (await SemaphoreSignaturePCDPackage.serialize(signaturePCD)).pcd
-          );
+          signaturePCDStr = (
+            await SemaphoreSignaturePCDPackage.serialize(signaturePCD)
+          ).pcd;
         }
+
         const res = await postConfession(
           group.url,
           confession,
           pcdStr,
           signaturePCDStr
         );
+
         if (!res.ok) {
           const resErr = await res.text();
           console.error("error posting confession to the server: ", resErr);

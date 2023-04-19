@@ -11,11 +11,14 @@ import { ALLOWED_GROUPS, isAllowedGroup } from "./auth";
 
 export async function verifyEthProof(ethProof: string): Promise<boolean> {
   try {
-    const verified = SemaphoreSignaturePCDPackage.verify(
-      await SemaphoreSignaturePCDPackage.deserialize(ethProof)
+    const deserialized = await SemaphoreSignaturePCDPackage.deserialize(
+      ethProof
     );
+    console.log(deserialized);
+    const verified = await SemaphoreSignaturePCDPackage.verify(deserialized);
     return verified;
   } catch (e) {
+    console.log(e);
     console.log("failed to verify");
   }
   return false;
