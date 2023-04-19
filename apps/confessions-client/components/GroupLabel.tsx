@@ -3,8 +3,8 @@ import { ALL_GROUPS } from "../src/util";
 
 export function GroupLabel({ groupUrl }: { groupUrl: string }) {
   return (
-    <LabelContainer style={{ backgroundColor: LABELS[groupUrl].color }}>
-      <Padded>{LABELS[groupUrl].label}</Padded>
+    <LabelContainer style={{ backgroundColor: LABELS[groupUrl]?.color }}>
+      <Padded>{LABELS[groupUrl]?.label}</Padded>
     </LabelContainer>
   );
 }
