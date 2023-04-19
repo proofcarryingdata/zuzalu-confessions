@@ -19,9 +19,11 @@ export function ChooseEthereumAddress() {
 
   useEffect(() => {
     if (pcdStr !== "") {
-      SemaphoreSignaturePCDPackage.deserialize(JSON.parse(pcdStr).pcd).then(
-        setPcd
-      );
+      const parsed = JSON.parse(pcdStr);
+      const type = parsed.type;
+
+      if (type === SemaphoreSignaturePCDPackage.name)
+        SemaphoreSignaturePCDPackage.deserialize(parsed.pcd).then(setPcd);
     }
   }, [pcdStr]);
 
