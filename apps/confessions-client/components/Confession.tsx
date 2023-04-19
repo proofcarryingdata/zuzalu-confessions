@@ -1,5 +1,10 @@
+import {
+  SemaphoreSignaturePCD,
+  SemaphoreSignaturePCDPackage,
+} from "@pcd/semaphore-signature-pcd";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { GroupLabel } from "./GroupLabel";
+import { GroupLabel, LabelContainer } from "./GroupLabel";
 
 export interface Confession {
   id: string;
@@ -9,23 +14,53 @@ export interface Confession {
   body: string;
   proof: string;
   proofHash: string;
+  ethProof: string;
 }
 
 export function SingleConfession({ confession }: { confession: Confession }) {
+  const [ethPCD, setEthPCD] = useState<SemaphoreSignaturePCD | undefined>();
+
+  useEffect(() => {
+    if (confession.ethProof) {
+      SemaphoreSignaturePCDPackage.deserialize(confession.ethProof)
+        .then((pcd) => {
+          setEthPCD(pcd);
+        })
+        .catch((e) => {
+          console.log("error deserializing eth pcd");
+        });
+    }
+  }, [confession.ethProof]);
+
   return (
     <ConfessionContainer>
-      <LabelContainer>
-        <GroupLabel groupUrl={confession.semaphoreGroupUrl} /> <br />{" "}
-      </LabelContainer>
+      <LabelWrap>
+        {ethPCD === undefined ? (
+          <>
+            <GroupLabel groupUrl={confession.semaphoreGroupUrl} /> <br />
+          </>
+        ) : (
+          <LabelContainer>
+            <EthereumAddressContainer>
+              {ethPCD.claim.identityCommitment}
+            </EthereumAddressContainer>
+          </LabelContainer>
+        )}
+      </LabelWrap>
       {confession.body}
     </ConfessionContainer>
   );
 }
 
-const LabelContainer = styled.div`
-  position: absolute;
-  bottom: 100%;
-  left: -1px;
+const EthereumAddressContainer = styled.div`
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  background-color: #eee;
+  padding: 0px 4px;
+`;
+
+const LabelWrap = styled.div`
+  max-width: 100%;
 `;
 
 const ConfessionContainer = styled.div`
@@ -34,7 +69,7 @@ const ConfessionContainer = styled.div`
   border: 1px solid black;
   border-radius: 0px 8px 8px 8px;
   display: inline-block;
-  width: 200px;
-  height: 150px;
+  width: 250px;
+  height: 200px;
   position: relative;
 `;
