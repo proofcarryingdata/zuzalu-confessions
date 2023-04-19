@@ -1,7 +1,9 @@
+import { EthereumOwnershipPCDPackage } from "@pcd/ethereum-ownership-pcd";
 import {
   constructPassportPcdGetRequestUrl,
   getWithoutProvingUrl,
 } from "@pcd/passport-interface";
+import { PASSPORT_URL } from "../src/util";
 
 console.log(constructPassportPcdGetRequestUrl, getWithoutProvingUrl);
 
@@ -20,19 +22,12 @@ export function ChooseEthereumAddress() {
 }
 
 function getProofWithoutProving() {
-  console.log("getWithoutProvingUrl", getWithoutProvingUrl);
-  console.log(
-    "constructPassportPcdGetRequestUrl",
-    constructPassportPcdGetRequestUrl
+  const url = getWithoutProvingUrl(
+    PASSPORT_URL,
+    window.location.origin + "/popup",
+    EthereumOwnershipPCDPackage.name
   );
-
-  // const url = constructPassportPcdGetWithoutProvingRequestUrl(
-  //   PASSPORT_URL,
-  //   window.location.origin + "/popup",
-  //   EthereumOwnershipPCDPackage.name
-  // );
-
-  // sendPassportRequest(url);
+  sendPassportRequest(url);
 }
 
 export function sendPassportRequest(proofUrl: string) {
