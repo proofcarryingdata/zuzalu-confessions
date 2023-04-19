@@ -35,8 +35,11 @@ export default function Page() {
           <Container>
             <PublishConfession onPublished={setNewConfession} />
           </Container>
-          <Container>
-            <Confessions accessToken={accessToken} newConfession={newConfession} />
+          <Container style={{ border: "none" }}>
+            <Confessions
+              accessToken={accessToken}
+              newConfession={newConfession}
+            />
           </Container>
         </>
       ) : (

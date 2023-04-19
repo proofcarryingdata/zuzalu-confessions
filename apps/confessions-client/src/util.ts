@@ -12,6 +12,31 @@ export const CONFESSIONS_SERVER_URL = IS_PROD
   ? "https://confessions-server.onrender.com/"
   : "http://localhost:3005/";
 
-export const SEMAPHORE_GROUP_URL = IS_PROD
-  ? "https://api.pcd-passport.com/semaphore/1"
-  : "http://localhost:3002/semaphore/1";
+export const PARTICIPANTS_URL = PASSPORT_SERVER_URL + "semaphore/1";
+export const RESIDENTS_URL = PASSPORT_SERVER_URL + "semaphore/2";
+export const VISITORS_URL = PASSPORT_SERVER_URL + "semaphore/3";
+export const ORGANIZERS_URL = PASSPORT_SERVER_URL + "semaphore/4";
+
+export interface SGroup {
+  name: string;
+  url: string;
+}
+
+export const ALL_GROUPS: SGroup[] = [
+  {
+    name: "participants",
+    url: PARTICIPANTS_URL,
+  },
+  {
+    name: "residents",
+    url: RESIDENTS_URL,
+  },
+  {
+    name: "visitors",
+    url: VISITORS_URL,
+  },
+  {
+    name: "organizers",
+    url: ORGANIZERS_URL,
+  },
+];
