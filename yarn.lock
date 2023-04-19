@@ -1696,10 +1696,10 @@
     react "^18.2.0"
     typescript "^4.9.5"
 
-"@pcd/passport-interface@0.4.2":
-  version "0.4.2"
-  resolved "https://registry.yarnpkg.com/@pcd/passport-interface/-/passport-interface-0.4.2.tgz#c63f75fd7606643cb99bfdf64fcce4ec854dc3ee"
-  integrity sha512-63Vmtc/soE+BUqUEh7GQUqP90JwwpC1d49kG04rQOVdJ9qkyuLFojQEJz+QPMzMZFVbgoH3NssHo9aH4FnByQQ==
+"@pcd/passport-interface@0.4.3-next.0":
+  version "0.4.3-next.0"
+  resolved "https://registry.yarnpkg.com/@pcd/passport-interface/-/passport-interface-0.4.3-next.0.tgz#67e5512cdaaf0d56920ae18f8902825f0f9f4124"
+  integrity sha512-JLUSgwRYaReVkqzu8gd0iZmA8MoWjF77dlnETIdRkD9ebbaxSxqI9Qg7kER14Kv+Kfp2dXuPwVOWx6qPoes01A==
   dependencies:
     "@pcd/passport-crypto" "0.4.1"
     "@pcd/pcd-types" "0.4.1"

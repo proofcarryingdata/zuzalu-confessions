@@ -1,7 +1,9 @@
 import {
   constructPassportPcdGetRequestUrl,
-  constructPassportPcdGetWithoutProvingRequestUrl,
+  getWithoutProvingUrl,
 } from "@pcd/passport-interface";
+
+console.log(constructPassportPcdGetRequestUrl, getWithoutProvingUrl);
 
 export function ChooseEthereumAddress() {
   return (
@@ -18,10 +20,7 @@ export function ChooseEthereumAddress() {
 }
 
 function getProofWithoutProving() {
-  console.log(
-    "constructPassportPcdGetWithoutProvingRequestUrl",
-    constructPassportPcdGetWithoutProvingRequestUrl
-  );
+  console.log("getWithoutProvingUrl", getWithoutProvingUrl);
   console.log(
     "constructPassportPcdGetRequestUrl",
     constructPassportPcdGetRequestUrl
