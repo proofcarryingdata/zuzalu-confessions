@@ -4,7 +4,10 @@ import {
   useSemaphoreGroupProof,
 } from "@pcd/passport-interface";
 import { generateMessageHash } from "@pcd/semaphore-group-pcd";
-import { SemaphoreSignaturePCD } from "@pcd/semaphore-signature-pcd";
+import {
+  SemaphoreSignaturePCD,
+  SemaphoreSignaturePCDPackage,
+} from "@pcd/semaphore-signature-pcd";
 import { useCallback, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { postConfession } from "../src/api";
@@ -66,7 +69,18 @@ export function PublishConfession({
       }
 
       const sendConfession = async () => {
-        const res = await postConfession(group.url, confession, pcdStr);
+        let signaturePCDStr: string | undefined = undefined;
+        if (signaturePCD) {
+          signaturePCDStr = JSON.stringify(
+            await SemaphoreSignaturePCDPackage.serialize(signaturePCD)
+          );
+        }
+        const res = await postConfession(
+          group.url,
+          confession,
+          pcdStr,
+          signaturePCDStr
+        );
         if (!res.ok) {
           const resErr = await res.text();
           console.error("error posting confession to the server: ", resErr);
@@ -84,7 +98,7 @@ export function PublishConfession({
         setConfessionInput("");
       });
     },
-    [pcdStr, confession, onPublished, group.url]
+    [signaturePCD, group.url, confession, pcdStr, onPublished]
   );
 
   const { proof, error: proofError } = useSemaphoreGroupProof(
