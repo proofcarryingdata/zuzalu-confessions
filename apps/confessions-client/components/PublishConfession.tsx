@@ -99,6 +99,7 @@ export function PublishConfession({
 
       sendConfession().then(() => {
         setConfessionInput("");
+        setSignaturePCD(undefined);
       });
     },
     [signaturePCD, group.url, confession, pcdStr, onPublished]
