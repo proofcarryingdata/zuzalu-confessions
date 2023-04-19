@@ -2,9 +2,24 @@ import {
   SemaphoreGroupPCDPackage,
   SerializedSemaphoreGroup,
 } from "@pcd/semaphore-group-pcd";
-import { generateMessageHash } from "@pcd/semaphore-signature-pcd";
+import {
+  generateMessageHash,
+  SemaphoreSignaturePCDPackage,
+} from "@pcd/semaphore-signature-pcd";
 import { Group } from "@semaphore-protocol/group";
 import { ALLOWED_GROUPS, isAllowedGroup } from "./auth";
+
+export async function verifyEthProof(ethProof: string): Promise<boolean> {
+  try {
+    const verified = SemaphoreSignaturePCDPackage.verify(
+      await SemaphoreSignaturePCDPackage.deserialize(ethProof)
+    );
+    return verified;
+  } catch (e) {
+    console.log("failed to verify");
+  }
+  return false;
+}
 
 export async function verifyGroupProof(
   semaphoreGroupUrl: string,

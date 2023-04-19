@@ -72,7 +72,7 @@ export function PublishConfession({
         let signaturePCDStr: string | undefined = undefined;
         if (signaturePCD) {
           signaturePCDStr = JSON.stringify(
-            await SemaphoreSignaturePCDPackage.serialize(signaturePCD)
+            (await SemaphoreSignaturePCDPackage.serialize(signaturePCD)).pcd
           );
         }
         const res = await postConfession(
