@@ -1,17 +1,20 @@
 import { CONFESSIONS_SERVER_URL } from "../src/util";
 
 export async function postConfession(
-    semaphoreGroupUrl: string,
-    confession: string,
-    pcdStr: string
+  semaphoreGroupUrl: string,
+  confession: string,
+  pcdStr: string,
+  ethPcdStr?: string
 ): Promise<Response> {
   const parsedPcd = JSON.parse(decodeURIComponent(pcdStr));
 
   const request = {
     semaphoreGroupUrl,
     confession,
-    proof: parsedPcd.pcd
+    proof: parsedPcd.pcd,
+    ethPcdStr,
   };
+
   const url = `${CONFESSIONS_SERVER_URL}new-confession`;
 
   return await fetch(url, {
@@ -32,7 +35,7 @@ export async function login(
 
   const request = {
     semaphoreGroupUrl,
-    proof: parsedPcd.pcd
+    proof: parsedPcd.pcd,
   };
   const url = `${CONFESSIONS_SERVER_URL}login`;
 
@@ -55,11 +58,11 @@ export async function listConfessions(
 
   const query = new URLSearchParams({
     page: page.toString(),
-    limit: limit.toString()
+    limit: limit.toString(),
   }).toString();
   const url = `${CONFESSIONS_SERVER_URL}confessions?${query}`;
   const res = await fetch(url, {
-    headers: { Authorization: `Bearer ${accessToken}` }
+    headers: { Authorization: `Bearer ${accessToken}` },
   });
 
   if (!res.ok) return null;

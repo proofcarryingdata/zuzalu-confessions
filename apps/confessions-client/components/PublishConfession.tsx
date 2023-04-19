@@ -1,4 +1,8 @@
 import {
+  EthereumOwnershipPCD,
+  EthereumOwnershipPCDPackage,
+} from "@pcd/ethereum-ownership-pcd";
+import {
   openZuzaluMembershipPopup,
   usePassportPopupMessages,
   useSemaphoreGroupProof,
@@ -8,6 +12,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { postConfession } from "../src/api";
 import { ALL_GROUPS, PASSPORT_URL, SGroup } from "../src/util";
+import { ChooseEthereumAddress } from "./ChooseEthereumAddress";
 import { SelectGroup } from "./SelectGroup";
 import { ConfessionsError, ErrorOverlay } from "./shared/ErrorOverlay";
 
@@ -35,9 +40,18 @@ export function PublishConfession({
   const [error, setError] = useState<ConfessionsError>();
   const [confessionInput, setConfessionInput] = useState<string>("");
   const [confession, setConfession] = useState<string>("");
-  const [group, setGroup] = useState<SGroup>(ALL_GROUPS[0]);
 
+  const [group, setGroup] = useState<SGroup>(ALL_GROUPS[0]);
+  const [signaturePCD, setSignaturePCD] = useState<
+    EthereumOwnershipPCD | undefined
+  >();
   const [pcdStr, _passportPendingPCDStr] = usePassportPopupMessages();
+
+  useEffect(() => {
+    if (signaturePCD) {
+      setGroup(ALL_GROUPS[0]);
+    }
+  }, [signaturePCD]);
 
   const onVerified = useCallback(
     (valid: boolean) => {
@@ -55,7 +69,21 @@ export function PublishConfession({
       }
 
       const sendConfession = async () => {
-        const res = await postConfession(group.url, confession, pcdStr);
+        let signaturePCDStr: string | undefined = undefined;
+
+        if (signaturePCD) {
+          signaturePCDStr = (
+            await EthereumOwnershipPCDPackage.serialize(signaturePCD)
+          ).pcd;
+        }
+
+        const res = await postConfession(
+          group.url,
+          confession,
+          pcdStr,
+          signaturePCDStr
+        );
+
         if (!res.ok) {
           const resErr = await res.text();
           console.error("error posting confession to the server: ", resErr);
@@ -71,9 +99,10 @@ export function PublishConfession({
 
       sendConfession().then(() => {
         setConfessionInput("");
+        setSignaturePCD(undefined);
       });
     },
-    [pcdStr, confession, onPublished, group.url]
+    [signaturePCD, group.url, confession, pcdStr, onPublished]
   );
 
   const { proof, error: proofError } = useSemaphoreGroupProof(
@@ -112,7 +141,18 @@ export function PublishConfession({
       />
       <br />
       <br />
-      <SelectGroup group={group} setGroup={setGroup} />{" "}
+      {signaturePCD === undefined && (
+        <>
+          <SelectGroup group={group} setGroup={setGroup} /> <br />
+          <br />
+          {"or "}
+          <br />
+          <br />
+        </>
+      )}
+      <ChooseEthereumAddress pcd={signaturePCD} setPCD={setSignaturePCD} />{" "}
+      <br />
+      <br />
       <button
         onClick={useCallback(() => {
           setConfession(confessionInput);

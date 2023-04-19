@@ -17,5 +17,6 @@ model Confession {
   semaphoreGroupUrl String
   body String
   proof Json
+  ethProof Json?
   proofHash String @unique
 }

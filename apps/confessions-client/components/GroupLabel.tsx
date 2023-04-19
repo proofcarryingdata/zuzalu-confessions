@@ -3,17 +3,19 @@ import { ALL_GROUPS } from "../src/util";
 
 export function GroupLabel({ groupUrl }: { groupUrl: string }) {
   return (
-    <Label style={{ backgroundColor: LABELS[groupUrl].color }}>
-      {LABELS[groupUrl].label}
-    </Label>
+    <LabelContainer style={{ backgroundColor: LABELS[groupUrl].color }}>
+      <Padded>{LABELS[groupUrl].label}</Padded>
+    </LabelContainer>
   );
 }
 
-const Label = styled.div`
+export const LabelContainer = styled.div`
   border: 1px solid black;
-  border-radius: 4px 4px 0px 0px;
-  padding: 0px 4px;
   display: inline-block;
+`;
+
+const Padded = styled.span`
+  padding: 0px 4px;
 `;
 
 const LABELS = {

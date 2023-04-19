@@ -2,7 +2,7 @@ import express, { NextFunction, Request, Response } from "express";
 import { sha256 } from "js-sha256";
 import { ApplicationContext } from "../../types";
 import { prisma } from "../../util/prisma";
-import { verifyGroupProof } from "../../util/verify";
+import { verifyEthProof, verifyGroupProof } from "../../util/verify";
 
 /**
  * The endpoints in this function accepts proof (pcd) in the request.
@@ -24,7 +24,13 @@ export function initPCDRoutes(
           request.proof,
           request.confession
         );
+
         if (err != null) throw err;
+
+        if (request.ethPcdStr) {
+          const valid = await verifyEthProof(request.ethPcdStr);
+          if (!valid) throw new Error("invalid ethereum proof");
+        }
 
         const proofHash = sha256(request.proof);
 
@@ -39,6 +45,7 @@ export function initPCDRoutes(
             body: request.confession,
             proof: request.proof,
             proofHash: proofHash,
+            ethProof: request.ethPcdStr,
           },
         });
 
@@ -55,4 +62,5 @@ export interface PostConfessionRequest {
   semaphoreGroupUrl: string;
   confession: string;
   proof: string;
+  ethPcdStr?: string;
 }

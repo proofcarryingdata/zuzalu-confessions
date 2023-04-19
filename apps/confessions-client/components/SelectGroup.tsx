@@ -26,7 +26,11 @@ export function SelectGroup({
       Posting as one of:{" "}
       <select value={group.name} onChange={onChange}>
         {ALL_GROUPS.map((g) => {
-          return <option value={g.name}>{g.name}</option>;
+          return (
+            <option key={g.name} value={g.name}>
+              {g.name}
+            </option>
+          );
         })}
       </select>
     </label>

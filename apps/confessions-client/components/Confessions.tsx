@@ -37,7 +37,7 @@ export function Confessions({
       <ConfessionsContainer>
         {confessions != null &&
           confessions.confessions.map((confession: Confession) => (
-            <SingleConfession confession={confession} />
+            <SingleConfession key={confession.id} confession={confession} />
           ))}
       </ConfessionsContainer>
     </>
