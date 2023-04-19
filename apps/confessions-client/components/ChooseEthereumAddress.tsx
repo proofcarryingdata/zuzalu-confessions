@@ -1,8 +1,8 @@
-import { EthereumOwnershipPCDPackage } from "@pcd/ethereum-ownership-pcd";
 import {
   constructPassportPcdGetRequestUrl,
   getWithoutProvingUrl,
 } from "@pcd/passport-interface";
+import { SemaphoreSignaturePCDPackage } from "@pcd/semaphore-signature-pcd";
 import { PASSPORT_URL } from "../src/util";
 
 console.log(constructPassportPcdGetRequestUrl, getWithoutProvingUrl);
@@ -25,7 +25,7 @@ function getProofWithoutProving() {
   const url = getWithoutProvingUrl(
     PASSPORT_URL,
     window.location.origin + "/popup",
-    EthereumOwnershipPCDPackage.name
+    SemaphoreSignaturePCDPackage.name
   );
   sendPassportRequest(url);
 }
