@@ -1,21 +1,19 @@
+import { EthereumOwnershipPCDPackage } from "@pcd/ethereum-ownership-pcd";
 import {
   SemaphoreGroupPCDPackage,
   SerializedSemaphoreGroup,
 } from "@pcd/semaphore-group-pcd";
-import {
-  generateMessageHash,
-  SemaphoreSignaturePCDPackage,
-} from "@pcd/semaphore-signature-pcd";
+import { generateMessageHash } from "@pcd/semaphore-signature-pcd";
 import { Group } from "@semaphore-protocol/group";
 import { ALLOWED_GROUPS, isAllowedGroup } from "./auth";
 
 export async function verifyEthProof(ethProof: string): Promise<boolean> {
   try {
-    const deserialized = await SemaphoreSignaturePCDPackage.deserialize(
+    const deserialized = await EthereumOwnershipPCDPackage.deserialize(
       ethProof
     );
     console.log(deserialized);
-    const verified = await SemaphoreSignaturePCDPackage.verify(deserialized);
+    const verified = await EthereumOwnershipPCDPackage.verify(deserialized);
     return verified;
   } catch (e) {
     console.log(e);

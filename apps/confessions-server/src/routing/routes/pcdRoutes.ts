@@ -28,7 +28,6 @@ export function initPCDRoutes(
         if (err != null) throw err;
 
         if (request.ethPcdStr) {
-          console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", request.ethPcdStr);
           const valid = await verifyEthProof(request.ethPcdStr);
           if (!valid) throw new Error("invalid ethereum proof");
         }

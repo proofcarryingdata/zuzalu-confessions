@@ -1,13 +1,13 @@
 import {
+  EthereumOwnershipPCD,
+  EthereumOwnershipPCDPackage,
+} from "@pcd/ethereum-ownership-pcd";
+import {
   openZuzaluMembershipPopup,
   usePassportPopupMessages,
   useSemaphoreGroupProof,
 } from "@pcd/passport-interface";
 import { generateMessageHash } from "@pcd/semaphore-group-pcd";
-import {
-  SemaphoreSignaturePCD,
-  SemaphoreSignaturePCDPackage,
-} from "@pcd/semaphore-signature-pcd";
 import { useCallback, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { postConfession } from "../src/api";
@@ -43,7 +43,7 @@ export function PublishConfession({
 
   const [group, setGroup] = useState<SGroup>(ALL_GROUPS[0]);
   const [signaturePCD, setSignaturePCD] = useState<
-    SemaphoreSignaturePCD | undefined
+    EthereumOwnershipPCD | undefined
   >();
   const [pcdStr, _passportPendingPCDStr] = usePassportPopupMessages();
 
@@ -73,7 +73,7 @@ export function PublishConfession({
 
         if (signaturePCD) {
           signaturePCDStr = (
-            await SemaphoreSignaturePCDPackage.serialize(signaturePCD)
+            await EthereumOwnershipPCDPackage.serialize(signaturePCD)
           ).pcd;
         }
 

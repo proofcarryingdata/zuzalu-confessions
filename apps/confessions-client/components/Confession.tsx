@@ -1,7 +1,7 @@
 import {
-  SemaphoreSignaturePCD,
-  SemaphoreSignaturePCDPackage,
-} from "@pcd/semaphore-signature-pcd";
+  EthereumOwnershipPCD,
+  EthereumOwnershipPCDPackage,
+} from "@pcd/ethereum-ownership-pcd";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { GroupLabel, LabelContainer } from "./GroupLabel";
@@ -18,11 +18,11 @@ export interface Confession {
 }
 
 export function SingleConfession({ confession }: { confession: Confession }) {
-  const [ethPCD, setEthPCD] = useState<SemaphoreSignaturePCD | undefined>();
+  const [ethPCD, setEthPCD] = useState<EthereumOwnershipPCD | undefined>();
 
   useEffect(() => {
     if (confession.ethProof) {
-      SemaphoreSignaturePCDPackage.deserialize(confession.ethProof)
+      EthereumOwnershipPCDPackage.deserialize(confession.ethProof)
         .then((pcd) => {
           setEthPCD(pcd);
         })
@@ -42,7 +42,7 @@ export function SingleConfession({ confession }: { confession: Confession }) {
         ) : (
           <LabelContainer>
             <EthereumAddressContainer>
-              {ethPCD.claim.identityCommitment}
+              {ethPCD.claim.ethereumAddress}
             </EthereumAddressContainer>
           </LabelContainer>
         )}

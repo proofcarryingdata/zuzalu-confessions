@@ -1,12 +1,12 @@
 import {
+  EthereumOwnershipPCD,
+  EthereumOwnershipPCDPackage,
+} from "@pcd/ethereum-ownership-pcd";
+import {
   constructPassportPcdGetRequestUrl,
   getWithoutProvingUrl,
   usePassportPopupMessages,
 } from "@pcd/passport-interface";
-import {
-  SemaphoreSignaturePCD,
-  SemaphoreSignaturePCDPackage,
-} from "@pcd/semaphore-signature-pcd";
 import { useEffect } from "react";
 import styled from "styled-components";
 import { PASSPORT_URL } from "../src/util";
@@ -17,8 +17,8 @@ export function ChooseEthereumAddress({
   pcd,
   setPCD,
 }: {
-  pcd: SemaphoreSignaturePCD | undefined;
-  setPCD: (pcd: SemaphoreSignaturePCD | undefined) => void;
+  pcd: EthereumOwnershipPCD | undefined;
+  setPCD: (pcd: EthereumOwnershipPCD | undefined) => void;
 }) {
   const [pcdStr, _passportPendingPCDStr] = usePassportPopupMessages();
 
@@ -27,8 +27,8 @@ export function ChooseEthereumAddress({
       const parsed = JSON.parse(pcdStr);
       const type = parsed.type;
 
-      if (type === SemaphoreSignaturePCDPackage.name)
-        SemaphoreSignaturePCDPackage.deserialize(parsed.pcd).then(setPCD);
+      if (type === EthereumOwnershipPCDPackage.name)
+        EthereumOwnershipPCDPackage.deserialize(parsed.pcd).then(setPCD);
     }
   }, [pcdStr, setPCD]);
 
@@ -70,7 +70,7 @@ function getProofWithoutProving() {
   const url = getWithoutProvingUrl(
     PASSPORT_URL,
     window.location.origin + "/popup",
-    SemaphoreSignaturePCDPackage.name
+    EthereumOwnershipPCDPackage.name
   );
   sendPassportRequest(url);
 }
