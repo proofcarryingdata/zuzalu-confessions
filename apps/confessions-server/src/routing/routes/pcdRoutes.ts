@@ -24,6 +24,7 @@ export function initPCDRoutes(
           request.proof,
           request.confession
         );
+
         if (err != null) throw err;
 
         const proofHash = sha256(request.proof);
@@ -55,4 +56,5 @@ export interface PostConfessionRequest {
   semaphoreGroupUrl: string;
   confession: string;
   proof: string;
+  ethPcdStr?: string;
 }
