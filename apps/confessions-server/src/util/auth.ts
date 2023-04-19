@@ -6,7 +6,8 @@ export const ACCESS_TOKEN_SECRET = IS_PROD
   ? process.env.ACCESS_TOKEN_SECRET
   : "secret";
 
-export const SEMAPHORE_SERVER = process.env.SEMAPHORE_SERVER;
+export const SEMAPHORE_SERVER =
+  process.env.SEMAPHORE_SERVER ?? "https://api.pcd-passport.com/";
 
 export const PARTICIPANTS_GROUP = SEMAPHORE_SERVER + "semaphore/1";
 export const RESIDENTS_GROUP = SEMAPHORE_SERVER + "semaphore/2";
