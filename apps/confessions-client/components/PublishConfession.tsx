@@ -8,6 +8,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { postConfession } from "../src/api";
 import { ALL_GROUPS, PASSPORT_URL, SGroup } from "../src/util";
+import { ChooseEthereumAddress } from "./ChooseEthereumAddress";
 import { SelectGroup } from "./SelectGroup";
 import { ConfessionsError, ErrorOverlay } from "./shared/ErrorOverlay";
 
@@ -113,6 +114,7 @@ export function PublishConfession({
       <br />
       <br />
       <SelectGroup group={group} setGroup={setGroup} />{" "}
+      <ChooseEthereumAddress />{" "}
       <button
         onClick={useCallback(() => {
           setConfession(confessionInput);
