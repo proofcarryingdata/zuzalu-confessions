@@ -4,6 +4,7 @@ import {
   useSemaphoreGroupProof,
 } from "@pcd/passport-interface";
 import { generateMessageHash } from "@pcd/semaphore-group-pcd";
+import { SemaphoreSignaturePCD } from "@pcd/semaphore-signature-pcd";
 import { useCallback, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { postConfession } from "../src/api";
@@ -36,9 +37,18 @@ export function PublishConfession({
   const [error, setError] = useState<ConfessionsError>();
   const [confessionInput, setConfessionInput] = useState<string>("");
   const [confession, setConfession] = useState<string>("");
-  const [group, setGroup] = useState<SGroup>(ALL_GROUPS[0]);
 
+  const [group, setGroup] = useState<SGroup>(ALL_GROUPS[0]);
+  const [signaturePCD, setSignaturePCD] = useState<
+    SemaphoreSignaturePCD | undefined
+  >();
   const [pcdStr, _passportPendingPCDStr] = usePassportPopupMessages();
+
+  useEffect(() => {
+    if (signaturePCD) {
+      setGroup(ALL_GROUPS[0]);
+    }
+  }, [signaturePCD]);
 
   const onVerified = useCallback(
     (valid: boolean) => {
@@ -113,8 +123,18 @@ export function PublishConfession({
       />
       <br />
       <br />
-      <SelectGroup group={group} setGroup={setGroup} />{" "}
-      <ChooseEthereumAddress />{" "}
+      {signaturePCD === undefined && (
+        <>
+          <SelectGroup group={group} setGroup={setGroup} /> <br />
+          <br />
+          {"or "}
+          <br />
+          <br />
+        </>
+      )}
+      <ChooseEthereumAddress pcd={signaturePCD} setPCD={setSignaturePCD} />{" "}
+      <br />
+      <br />
       <button
         onClick={useCallback(() => {
           setConfession(confessionInput);

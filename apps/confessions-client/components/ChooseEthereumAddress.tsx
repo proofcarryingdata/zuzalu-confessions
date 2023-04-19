@@ -7,15 +7,20 @@ import {
   SemaphoreSignaturePCD,
   SemaphoreSignaturePCDPackage,
 } from "@pcd/semaphore-signature-pcd";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import styled from "styled-components";
 import { PASSPORT_URL } from "../src/util";
 
 console.log(constructPassportPcdGetRequestUrl, getWithoutProvingUrl);
 
-export function ChooseEthereumAddress() {
+export function ChooseEthereumAddress({
+  pcd,
+  setPCD,
+}: {
+  pcd: SemaphoreSignaturePCD | undefined;
+  setPCD: (pcd: SemaphoreSignaturePCD | undefined) => void;
+}) {
   const [pcdStr, _passportPendingPCDStr] = usePassportPopupMessages();
-  const [pcd, setPcd] = useState<SemaphoreSignaturePCD | undefined>();
 
   useEffect(() => {
     if (pcdStr !== "") {
@@ -23,9 +28,9 @@ export function ChooseEthereumAddress() {
       const type = parsed.type;
 
       if (type === SemaphoreSignaturePCDPackage.name)
-        SemaphoreSignaturePCDPackage.deserialize(parsed.pcd).then(setPcd);
+        SemaphoreSignaturePCDPackage.deserialize(parsed.pcd).then(setPCD);
     }
-  }, [pcdStr]);
+  }, [pcdStr, setPCD]);
 
   useEffect(() => {
     console.log(pcd);
@@ -33,14 +38,30 @@ export function ChooseEthereumAddress() {
 
   return (
     <>
-      <button
-        onClick={() => {
-          getProofWithoutProving();
-        }}
-      >
-        post as ethereum address
-      </button>
-      {pcd && <SelectedIdentity>{pcd?.id?.substring(0, 16)}</SelectedIdentity>}
+      {!pcd && (
+        <button
+          onClick={() => {
+            getProofWithoutProving();
+          }}
+        >
+          post as ethereum address
+        </button>
+      )}
+
+      {pcd && (
+        <>
+          <button
+            onClick={() => {
+              setPCD(undefined);
+            }}
+          >
+            clear
+          </button>
+          <SelectedIdentity>
+            id: {pcd?.id?.substring(0, 16)}...
+          </SelectedIdentity>
+        </>
+      )}
     </>
   );
 }
@@ -62,4 +83,6 @@ export function sendPassportRequest(proofUrl: string) {
 const SelectedIdentity = styled.span`
   border: 1px solid green;
   padding: 1px 4px;
+  margin: 4px;
+  border-radius: 4px;
 `;
